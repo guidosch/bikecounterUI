@@ -32,7 +32,7 @@ export const counters = [
   },
   {
     id: 3,
-    name: 'Höckler',
+    name: 'Höckler 3 new',
     temperature: 3,
     humidity: 88,
     battery: 3.7,
