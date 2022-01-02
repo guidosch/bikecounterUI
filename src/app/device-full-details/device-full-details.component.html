@@ -1,0 +1,8 @@
+<h2>Device Details</h2>
+
+<div *ngIf="counter">
+  <h3>{{ counter.id }}</h3>
+  <h4>{{ counter.temperature }}°C</h4>
+  <p>{{ counter.humidity | percent }}</p>
+  <p>   </p>
+</div>

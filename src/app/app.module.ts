@@ -5,30 +5,30 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
-import { ProductListComponent } from './product-list/product-list.component';
+import { DeviceListComponent } from './device-list/device-list.component';
+import { DeviceDetailsComponent } from './device-details/device-details.component';
+import { DeviceFullDetailsComponent } from './device-full-details/device-full-details.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
     BrowserModule,
     ReactiveFormsModule,
+    HttpClientModule,
     RouterModule.forRoot([
-      { path: '', component: ProductListComponent },
+      { path: '', component: DeviceListComponent },
+      { path: 'devices/:deviceId', component: DeviceFullDetailsComponent },
     ])
   ],
   declarations: [
     AppComponent,
     TopBarComponent,
-    ProductListComponent
+    DeviceListComponent,
+    DeviceDetailsComponent,
+    DeviceFullDetailsComponent
   ],
   bootstrap: [
     AppComponent
   ]
 })
 export class AppModule { }
-
-
-/*
-Copyright Google LLC. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at https://angular.io/license
-*/
