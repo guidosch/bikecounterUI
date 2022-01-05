@@ -19,6 +19,14 @@ export class DeviceListComponent {
     this.selectedDevice = counter;
   }
 
+  isOnline(counter: Counter){
+    return counter.online;
+  }
+
+  isOnlineMsg(counter: Counter){
+    return counter.online ? "(online)": "(offline)";
+  }
+
   onNotify() {
     window.alert('show graph... for');
   }
