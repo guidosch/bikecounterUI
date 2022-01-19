@@ -1,12 +1,9 @@
-<h2>Counters</h2>
-
 <div *ngFor="let counter of counters | async">
   <h3>
     <a [title]="counter.id + ' details'" [routerLink]="['/devices', counter.id]">{{ counter.id }}</a>&nbsp;
-    <span [class.online]="isOnline(counter)" [class.offline]="!isOnline(counter)">{{ isOnlineMsg(counter) }}</span>
+    <span [class.online]="isOnline(counter)" [class.offline]="!isOnline(counter)">{{ isOnlineMsg(counter) }}</span>&nbsp;
+    <button (click)="details(counter)" *ngIf="!(selectedDevice && selectedDevice.id == counter.id)">Summary</button>
   </h3>
-  <button (click)="details(counter)">Summary</button>
-
   <app-device-details *ngIf="selectedDevice && selectedDevice.id == counter.id" [counter]="counter"
     (notify)="onNotify()">
   </app-device-details>

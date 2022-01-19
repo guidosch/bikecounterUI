@@ -38,7 +38,7 @@
         </tr>
         <tr>
             <td>Last message</td>
-            <td>{{counter.timestampLastMsg}}</td>
+            <td>{{counter.timestampLastMsg | date : 'dd.MM.yyyy  HH:mm'}}</td>
             <td></td>
         </tr>
         <tr>
@@ -48,3 +48,4 @@
         </tr>
     </tbody>
 </table>
+<hr/>
