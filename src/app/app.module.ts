@@ -9,12 +9,15 @@ import { DeviceListComponent } from './device-list/device-list.component';
 import { DeviceDetailsComponent } from './device-details/device-details.component';
 import { DeviceFullDetailsComponent } from './device-full-details/device-full-details.component';
 import { HttpClientModule } from '@angular/common/http';
+import { NgChartsModule } from "ng2-charts";
+import { LineChartComponent } from './line-chart/line-chart.component';
 
 @NgModule({
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     HttpClientModule,
+    NgChartsModule,
     RouterModule.forRoot([
       { path: '', component: DeviceListComponent },
       { path: 'devices/:deviceId', component: DeviceFullDetailsComponent },
@@ -25,7 +28,8 @@ import { HttpClientModule } from '@angular/common/http';
     TopBarComponent,
     DeviceListComponent,
     DeviceDetailsComponent,
-    DeviceFullDetailsComponent
+    DeviceFullDetailsComponent,
+    LineChartComponent
   ],
   bootstrap: [
     AppComponent

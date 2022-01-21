@@ -23,7 +23,7 @@ export class DeviceFullDetailsComponent implements OnInit {
     this.counter = this.apiService.getDevice(id);
   }
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    console.log("init called...");
   }
 
 }
