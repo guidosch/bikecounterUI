@@ -2,9 +2,32 @@
   <h3>
     <a [title]="counter.id + ' details'" [routerLink]="['/devices', counter.id]">{{ counter.id }}</a>&nbsp;
     <span [class.online]="isOnline(counter)" [class.offline]="!isOnline(counter)">{{ isOnlineMsg(counter) }}</span>&nbsp;
-    <button (click)="details(counter)" *ngIf="!(selectedDevice && selectedDevice.id == counter.id)">Summary</button>
+    <mat-icon matBadge="15" matBadgeColor="warn">home</mat-icon>
+    <!-- Include text description of the icon's meaning for screen-readers -->
+    <span class="cdk-visually-hidden">
+      Example with a home icon with overlaid badge showing the number 15
+    </span>
   </h3>
-  <app-device-details *ngIf="selectedDevice && selectedDevice.id == counter.id" [counter]="counter"
-    (notify)="onNotify()">
-  </app-device-details>
+  
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Show Summary...
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <!-- todo: do lazy loading  -->
+    <p><app-device-details  [counter]="counter">
+    </app-device-details></p>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Show last month health data as graph...
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <!-- todo: do lazy loading  -->
+    <p><app-line-chart  [counter]="counter"></app-line-chart></p>
+  </mat-expansion-panel>
 </div>

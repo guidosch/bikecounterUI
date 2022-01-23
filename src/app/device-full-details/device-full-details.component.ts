@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 //allows to react to httpClient com. errors
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
-import { CloudFunctionAPIService } from '../cloud-function-api.service';
+import { CloudFunctionAPIService } from '../cloud-function-summary.service';
 
 @Component({
   selector: 'app-device-full-details',

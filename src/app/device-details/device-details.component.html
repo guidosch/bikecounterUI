@@ -19,17 +19,17 @@
         <tr>
             <td>Battery level</td>
             <td>{{counter.battery}}</td>
-            <td><button (click)="notify.emit()">Show graph...</button></td>
+            <td><button (click)="showGraph(counter)">Show graph...</button></td>
         </tr>
         <tr>
             <td>Temperature</td>
             <td>{{counter.temperature}}</td>
-            <td><button (click)="notify.emit()">Show graph...</button></td>
+            <td><button (click)="showGraph(counter)">Show graph...</button></td>
         </tr>
         <tr>
             <td>Humidity</td>
             <td>{{counter.humidity}}</td>
-            <td><button (click)="notify.emit()">Show graph...</button></td>
+            <td><button (click)="showGraph(counter)">Show graph...</button></td>
         </tr>
         <tr>
             <td>Receiving Gateways</td>
@@ -48,4 +48,3 @@
         </tr>
     </tbody>
 </table>
-<hr/>

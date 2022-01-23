@@ -1,21 +1,25 @@
-import { Component, OnInit, ViewChild, OnDestroy} from '@angular/core';
-import { Chart, ChartDataset, ChartOptions, ChartType } from 'chart.js';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ChartDataset, ChartOptions, ChartType } from 'chart.js';
 import 'chartjs-adapter-date-fns';
-import {  } from 'ng2-charts';
+import { BaseChartDirective } from 'ng2-charts';
+import { CloudFunctionHealthService } from '../cloud-function-health.service';
+import { Counter } from '../Counter';
+
 
 @Component({
   selector: 'app-line-chart',
   templateUrl: './line-chart.component.html',
   styleUrls: ['./line-chart.component.css']
 })
-export class LineChartComponent {
-  public lineChartData: ChartDataset[] = [
-    {data: [{"x":1642714241000,"y":1},{"x":1643714241000,"y":2},{"x":1644714241000,"y":3},{"x":1645714241000,"y":13}], label: 'Battery level', yAxisID: 'y'},
-    {data: [{"x":1642714241000,"y":4.5},{"x":1643714241000,"y":7.5},{"x":1644714241000,"y":6.5},{"x":1645714241000,"y":13}], label: 'Battery Voltage', yAxisID: 'y1'},
-    {data: [{"x":1642714241000,"y":10},{"x":1643714241000,"y":12},{"x":1644714241000,"y":13},{"x":1645714241000,"y":16}], label: 'Temperature', yAxisID: 'y2'},
-    {data: [{"x":1642714241000,"y":16},{"x":1643714241000,"y":26},{"x":1644714241000,"y":63},{"x":1645714241000,"y":13}], label: 'Humidity', yAxisID: 'y3'}
-  ];
-
+export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit{
+  //allows access to the component
+  @ViewChild(BaseChartDirective)
+  baseChartDir!: BaseChartDirective;
+  
+  private chartComponent: any;
+  public lineChartData: ChartDataset[] = [];
+  private apiService: CloudFunctionHealthService;
   public lineChartOptions: ChartOptions = {
     scales: {
       y: {
@@ -65,14 +69,44 @@ export class LineChartComponent {
     }
   };
   public lineChartLegend = true;
-  public lineChartType : ChartType = "line";
+  public lineChartType: ChartType = "line";
   public lineChartPlugins = [];
 
-  constructor() { }
+  //object passed from parent component
+  @Input() counter!: Counter;
+  
+  constructor(private route: ActivatedRoute, private cloudService: CloudFunctionHealthService) {
+    this.apiService = cloudService;
+  }
+
+  ngAfterViewInit(): void {
+    this.baseChartDir.ngOnChanges({});
+
+    let observable = this.apiService.getHealthDataForDevice(this.counter.id);
+  
+    //will be called after data is fetched from server
+    observable.subscribe(data => {
+      
+      data.forEach(element => {
+        if (element.measure === "batteryLevel") {
+          this.lineChartData.push({ data: element.data, label: 'Battery level', yAxisID: 'y' });
+        } else if (element.measure === "batteryVoltage") {
+          this.lineChartData.push({ data: element.data, label: 'Battery voltage', yAxisID: 'y1' });
+        } else if (element.measure === "temperature") {
+          this.lineChartData.push({ data: element.data, label: 'Temperature', yAxisID: 'y2' });
+        } else if (element.measure === "humidity") {
+          this.lineChartData.push({ data: element.data, label: 'Humidity', yAxisID: 'y3' });
+        }
+      });
+      //this calls the chart.update() method
+      this.baseChartDir.ngOnChanges({});
+  
+    });
+  }
 
   ngOnInit() {
   }
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.lineChartData = [];
   }
 }

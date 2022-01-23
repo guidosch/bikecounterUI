@@ -11,6 +11,11 @@ import { DeviceFullDetailsComponent } from './device-full-details/device-full-de
 import { HttpClientModule } from '@angular/common/http';
 import { NgChartsModule } from "ng2-charts";
 import { LineChartComponent } from './line-chart/line-chart.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+//Material design modules
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   imports: [
@@ -21,7 +26,11 @@ import { LineChartComponent } from './line-chart/line-chart.component';
     RouterModule.forRoot([
       { path: '', component: DeviceListComponent },
       { path: 'devices/:deviceId', component: DeviceFullDetailsComponent },
-    ])
+    ]),
+    NoopAnimationsModule,
+    MatExpansionModule,
+    MatBadgeModule,
+    MatIconModule
   ],
   declarations: [
     AppComponent,

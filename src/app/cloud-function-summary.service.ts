@@ -15,7 +15,7 @@ export class CloudFunctionAPIService {
   constructor(private httpClient: HttpClient) { }
   
   /**
-   * return a list of devices
+   * returns a list of devices with it common properties.
    */
   public getDevices() {
     //load from API. Http Client return an Observable and and contains the Counter objects inside in the body.

@@ -1,10 +1,5 @@
-<div style="display: block;">
-    <canvas baseChart width="400" height="400"
-      [type]="lineChartType"
-      [datasets]="lineChartData"
-      [options]="lineChartOptions"
-      [legend]="lineChartLegend"
-      [plugins]="lineChartPlugins">
-    </canvas>
-  </div>
-  
+<div class="chart-container" style="position: relative; height:20vh; width:60vw">
+  <canvas #linechartComp baseChart width="400" height="400" [type]="lineChartType" [datasets]="lineChartData"
+    [options]="lineChartOptions" [legend]="lineChartLegend" [plugins]="lineChartPlugins">
+  </canvas>
+</div>

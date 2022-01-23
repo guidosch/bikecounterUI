@@ -10,8 +10,15 @@ export class DeviceDetailsComponent implements OnInit {
 
   //object passed from parent component
   @Input() counter!: Counter;
-  @Output() notify = new EventEmitter();
+  selectedDevice: Counter | undefined;
+  
+  //declare method for button to click, is is received by the parent component when the emit() method is called
+  //@Output() showGraph = new EventEmitter<Counter>();
   constructor() { }
+
+  showGraph(counter: Counter){
+    this.selectedDevice = counter;
+  }
 
   ngOnInit(): void {
   }
