@@ -4,47 +4,38 @@
         <tr>
             <td>Sum Today</td>
             <td>{{counter.sumToday}}</td>
-            <td></td>
         </tr>
         <tr>
             <td>Sum last 24h</td>
             <td>{{counter.sumLast24h}}</td>
-            <td></td>
         </tr>
         <tr>
             <td>Status</td>
             <td>{{counter.status}}</td>
-            <td></td>
         </tr>
         <tr>
             <td>Battery level</td>
             <td>{{counter.battery}}</td>
-            <td><button (click)="showGraph(counter)">Show graph...</button></td>
         </tr>
         <tr>
             <td>Temperature</td>
             <td>{{counter.temperature}}</td>
-            <td><button (click)="showGraph(counter)">Show graph...</button></td>
         </tr>
         <tr>
             <td>Humidity</td>
             <td>{{counter.humidity}}</td>
-            <td><button (click)="showGraph(counter)">Show graph...</button></td>
         </tr>
         <tr>
             <td>Receiving Gateways</td>
             <td>{{counter.gateways}}</td>
-            <td></td>
         </tr>
         <tr>
             <td>Last message</td>
             <td>{{counter.timestampLastMsg | date : 'dd.MM.yyyy  HH:mm'}}</td>
-            <td></td>
         </tr>
         <tr>
             <td>Location</td>
             <td>{{counter.location}}</td>
-            <td></td>
         </tr>
     </tbody>
 </table>

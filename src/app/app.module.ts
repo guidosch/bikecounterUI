@@ -13,9 +13,10 @@ import { NgChartsModule } from "ng2-charts";
 import { LineChartComponent } from './line-chart/line-chart.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 //Material design modules
-import { MatExpansionModule } from '@angular/material/expansion';
+import { MatExpansionModule, MAT_EXPANSION_PANEL_DEFAULT_OPTIONS } from '@angular/material/expansion';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatIconModule } from '@angular/material/icon';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { MatIconModule } from '@angular/material/icon';
     NoopAnimationsModule,
     MatExpansionModule,
     MatBadgeModule,
-    MatIconModule
+    MatIconModule,
+    FontAwesomeModule
   ],
   declarations: [
     AppComponent,
@@ -42,6 +44,14 @@ import { MatIconModule } from '@angular/material/icon';
   ],
   bootstrap: [
     AppComponent
+  ],
+  providers: [
+    {
+      provide: MAT_EXPANSION_PANEL_DEFAULT_OPTIONS,
+      useValue: {
+        //expandedHeight: '500px',
+      }
+    }
   ]
 })
 export class AppModule { }

@@ -1,8 +1,9 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { Counter } from '../Counter';
 import { CloudFunctionAPIService } from '../cloud-function-summary.service';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { MatBadge } from '@angular/material/badge';
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-device-list',
@@ -12,15 +13,16 @@ import { MatBadge } from '@angular/material/badge';
 export class DeviceListComponent {
   @ViewChild(MatExpansionPanel)
   expansionPanel!: MatExpansionPanel;
+
   @ViewChild(MatBadge)
   badge!: MatBadge;
+
+  faExclamationTriangle = faExclamationTriangle;
 
   counters = this.apiService.getDevices();
   selectedDevice: Counter | undefined;
 
-  constructor(
-    private apiService: CloudFunctionAPIService
-  ) { }
+  constructor(private apiService: CloudFunctionAPIService ) { }
 
   details(counter: Counter) {
     this.selectedDevice = counter;
@@ -30,6 +32,17 @@ export class DeviceListComponent {
     return counter.online;
   }
 
+  calcWarnings(counter: Counter) {
+    //todo check with tobias
+    let errors: number = 0;
+    if (counter.battery < 3.7){
+      errors++;
+    } else if (counter.humidity > 85) {
+      errors++;
+    }
+    return 3;
+  }
+
   isOnlineMsg(counter: Counter) {
     return counter.online ? "(online)" : "(offline)";
   }
@@ -37,4 +50,5 @@ export class DeviceListComponent {
   onNotify() {
     window.alert('show graph... for');
   }
+  
 }

@@ -2,11 +2,12 @@
   <h3>
     <a [title]="counter.id + ' details'" [routerLink]="['/devices', counter.id]">{{ counter.id }}</a>&nbsp;
     <span [class.online]="isOnline(counter)" [class.offline]="!isOnline(counter)">{{ isOnlineMsg(counter) }}</span>&nbsp;
-    <mat-icon matBadge="15" matBadgeColor="warn">home</mat-icon>
-    <!-- Include text description of the icon's meaning for screen-readers -->
-    <span class="cdk-visually-hidden">
-      Example with a home icon with overlaid badge showing the number 15
-    </span>
+
+    <mat-icon [matBadgeHidden]="calcWarnings(counter) === 0"  matBadge="{{calcWarnings(counter)}}" matBadgeColor="warn"><fa-icon matBadge="15" matBadgeColor="warn" [icon]="faExclamationTriangle"></fa-icon></mat-icon>
+  
+
+  
+    
   </h3>
   
 
@@ -24,8 +25,9 @@
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
-        Show last month health data as graph...
+        Show graph...
       </mat-panel-title>
+      <mat-panel-description>Last month of health data as graph</mat-panel-description>
     </mat-expansion-panel-header>
     <!-- todo: do lazy loading  -->
     <p><app-line-chart  [counter]="counter"></app-line-chart></p>

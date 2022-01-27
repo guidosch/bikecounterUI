@@ -1,4 +1,6 @@
-<div class="chart-container" style="position: relative; height:20vh; width:60vw">
+<!--todo: styles for mobile must be responsive or just smaller-->
+
+<div class="chart-container" style="position: relative; height:300; width:80vh">
   <canvas #linechartComp baseChart width="400" height="400" [type]="lineChartType" [datasets]="lineChartData"
     [options]="lineChartOptions" [legend]="lineChartLegend" [plugins]="lineChartPlugins">
   </canvas>
