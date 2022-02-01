@@ -1,12 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CloudFunctionDeviceService } from '../cloud-function-device.service';
 import { Counter } from '../Counter';
-import { HttpClient } from '@angular/common/http';
 
-//allows to react to httpClient com. errors
-import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
-import { CloudFunctionAPIService } from '../cloud-function-summary.service';
 
 @Component({
   selector: 'app-device-full-details',
@@ -15,13 +11,20 @@ import { CloudFunctionAPIService } from '../cloud-function-summary.service';
 })
 export class DeviceFullDetailsComponent implements OnInit {
 
-  counter: Counter | undefined;
+  counter!: Counter;
 
-  constructor(private route: ActivatedRoute, private apiService: CloudFunctionAPIService) {
-    const routeParams = this.route.snapshot.paramMap;
-    const id = String(routeParams.get('id'));
-    this.counter = this.apiService.getDevice(id);
+  constructor(private route: ActivatedRoute, private apiService: CloudFunctionDeviceService) {
+    let deviceID: string = "";
+    route.pathFromRoot[1].url.subscribe(val => {
+
+      this.apiService.getDeviceSummary(val[1].path).subscribe(data => {
+        this.counter = data[0];
+      });
+
+    });
+
   }
+
   ngOnInit(): void {
     console.log("init called...");
   }

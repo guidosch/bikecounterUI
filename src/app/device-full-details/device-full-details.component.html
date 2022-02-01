@@ -1,10 +1,7 @@
-<h2>Device Details</h2>
+<h2>Device Details for: {{counter.id}}</h2>
 
-<div *ngIf="counter">
-  <h3>{{ counter.id }}</h3>
-  <h4>{{ counter.temperature }}°C</h4>
-  <p>{{ counter.humidity | percent }}</p>
-  <p>   </p>
-</div>
+<app-device-details *ngIf="counter" [counter]="counter"></app-device-details>
 
-<app-line-chart></app-line-chart>
+<app-bar-chart *ngIf="counter" [counter]="counter"></app-bar-chart>
+
+<app-line-chart *ngIf="counter" [counter]="counter"></app-line-chart>

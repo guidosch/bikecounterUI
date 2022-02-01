@@ -17,6 +17,7 @@ import { MatExpansionModule, MAT_EXPANSION_PANEL_DEFAULT_OPTIONS } from '@angula
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatIconModule } from '@angular/material/icon';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { BarChartComponent } from './bar-chart/bar-chart.component';
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     DeviceListComponent,
     DeviceDetailsComponent,
     DeviceFullDetailsComponent,
-    LineChartComponent
+    LineChartComponent,
+    BarChartComponent
   ],
   bootstrap: [
     AppComponent

@@ -10,12 +10,11 @@ import { catchError, retry } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class CloudFunctionAPIService {
-  devices: Counter[] = [];
-
+  
   constructor(private httpClient: HttpClient) { }
   
   /**
-   * returns a list of devices with it common properties.
+   * returns a list of devices with its common properties.
    */
   public getDevices() {
     //load from API. Http Client return an Observable and and contains the Counter objects inside in the body.
@@ -27,11 +26,5 @@ export class CloudFunctionAPIService {
 
   }
 
-  /**
-   * name
-   */
-  public getDevice(id: String): Counter | undefined {
-    return this.devices.find(device => device.id === id);
-  }
   
 }

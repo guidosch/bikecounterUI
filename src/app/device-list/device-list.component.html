@@ -4,10 +4,7 @@
     <span [class.online]="isOnline(counter)" [class.offline]="!isOnline(counter)">{{ isOnlineMsg(counter) }}</span>&nbsp;
 
     <mat-icon [matBadgeHidden]="calcWarnings(counter) === 0"  matBadge="{{calcWarnings(counter)}}" matBadgeColor="warn"><fa-icon matBadge="15" matBadgeColor="warn" [icon]="faExclamationTriangle"></fa-icon></mat-icon>
-  
-
-  
-    
+      
   </h3>
   
 

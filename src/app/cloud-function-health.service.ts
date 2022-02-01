@@ -16,7 +16,6 @@ export class CloudFunctionHealthService {
   constructor(private httpClient: HttpClient) { }
 
   public getHealthDataForDevice(deviceId: string) {
-
     return this.httpClient.get<TimeseriesData[]>(URL+"?collection="+deviceId);
   }
 }
