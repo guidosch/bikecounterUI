@@ -3,11 +3,17 @@ export interface Counter {
   online: boolean;
   temperature: number;
   humidity: number;
-  battery: number;
+  batteryLevel: number;
+  batteryVoltage: number;
   status: number;
   location: string;
   sumLast24h: number;
   sumToday: number;
-  gateways: string;
+  gateways: Gateway;
   timestampLastMsg: string;
+}
+
+export interface Gateway {
+  eui: string;
+  gateway_id:string;
 }

@@ -20,6 +20,14 @@ export class DeviceDetailsComponent implements OnInit {
     this.selectedDevice = counter;
   }
 
+  extractSingleGatewayId(counter: Counter): string{
+    if (counter.gateways){
+      return counter.gateways.gateway_id
+    }
+    return "";
+
+  }
+
   ngOnInit(): void {
   }
 

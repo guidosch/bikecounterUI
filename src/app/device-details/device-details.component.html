@@ -15,7 +15,11 @@
         </tr>
         <tr>
             <td>Battery level</td>
-            <td>{{counter.battery}}</td>
+            <td>{{counter.batteryLevel}}</td>
+        </tr>
+        <tr>
+            <td>Battery Voltage</td>
+            <td>{{counter.batteryVoltage}}</td>
         </tr>
         <tr>
             <td>Temperature</td>
@@ -27,7 +31,7 @@
         </tr>
         <tr>
             <td>Receiving Gateways</td>
-            <td>{{counter.gateways}}</td>
+            <td>{{extractSingleGatewayId(counter)}}</td>
         </tr>
         <tr>
             <td>Last message</td>

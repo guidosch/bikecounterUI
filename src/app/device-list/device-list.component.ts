@@ -33,14 +33,16 @@ export class DeviceListComponent {
   }
 
   calcWarnings(counter: Counter) {
-    //todo check with tobias
+    //todo check with tobias about min voltage
     let errors: number = 0;
-    if (counter.battery < 3.7){
-      errors++;
-    } else if (counter.humidity > 85) {
-      errors++;
-    }
-    return 3;
+    if (counter.online){
+      if (counter.batteryVoltage < 3.7){
+        errors++;
+      } else if (counter.humidity > 80) {
+        errors++;
+      }
+   }
+    return errors;
   }
 
   isOnlineMsg(counter: Counter) {

@@ -3,7 +3,7 @@
     <a [title]="counter.id + ' details'" [routerLink]="['/devices', counter.id]">{{ counter.id }}</a>&nbsp;
     <span [class.online]="isOnline(counter)" [class.offline]="!isOnline(counter)">{{ isOnlineMsg(counter) }}</span>&nbsp;
 
-    <mat-icon [matBadgeHidden]="calcWarnings(counter) === 0"  matBadge="{{calcWarnings(counter)}}" matBadgeColor="warn"><fa-icon matBadge="15" matBadgeColor="warn" [icon]="faExclamationTriangle"></fa-icon></mat-icon>
+    <mat-icon [matBadgeHidden]="calcWarnings(counter) === 0"  matBadge="{{calcWarnings(counter)}}" matBadgeColor="warn"><fa-icon *ngIf="calcWarnings(counter) > 0" matBadgeColor="warn" [icon]="faExclamationTriangle"></fa-icon></mat-icon>
       
   </h3>
   
