@@ -15,3 +15,9 @@ or just use it like this:
 run n to check or install a node version
 
 e.g. `sudo n lts` --> will install the newest LTS version.
+
+## Build and publish
+ng build --output-path docs --base-href /bikecounter/
+
+commit and push the docs folder to the bikecounter git repo on Github (branch gh-pages)
+
