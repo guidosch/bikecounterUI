@@ -1,9 +1,9 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
-import { Counter } from '../Counter';
-import { CloudFunctionAPIService } from '../cloud-function-summary.service';
-import { MatExpansionPanel } from '@angular/material/expansion';
+import { Component, ViewChild, SimpleChange } from '@angular/core';
 import { MatBadge } from '@angular/material/badge';
+import { MatExpansionPanel } from '@angular/material/expansion';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { CloudFunctionAPIService } from '../cloud-function-summary.service';
+import { Counter } from '../Counter';
 
 @Component({
   selector: 'app-device-list',
@@ -14,6 +14,7 @@ export class DeviceListComponent {
   @ViewChild(MatExpansionPanel)
   expansionPanel!: MatExpansionPanel;
 
+  //accessing mat component instance
   @ViewChild(MatBadge)
   badge!: MatBadge;
 
@@ -22,7 +23,8 @@ export class DeviceListComponent {
   counters = this.apiService.getDevices();
   selectedDevice: Counter | undefined;
 
-  constructor(private apiService: CloudFunctionAPIService ) { }
+  constructor(private apiService: CloudFunctionAPIService ) {
+  }
 
   details(counter: Counter) {
     this.selectedDevice = counter;
@@ -51,6 +53,11 @@ export class DeviceListComponent {
 
   onNotify() {
     window.alert('show graph... for');
+  }
+
+  openPanel(counter: Counter) {
+    console.log("Panel opened for: "+counter.id);
+    this.selectedDevice = counter;
   }
   
 }

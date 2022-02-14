@@ -1,3 +1,5 @@
+<app-loading-indicator></app-loading-indicator>
+
 <div *ngFor="let counter of counters | async">
   <h3>
     <a [title]="counter.id + ' details'" [routerLink]="['/devices', counter.id]">{{ counter.id }}</a>&nbsp;
@@ -14,19 +16,18 @@
         Show Summary...
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <!-- todo: do lazy loading  -->
-    <p><app-device-details  [counter]="counter">
+    <p><app-device-details   [counter]="counter">
     </app-device-details></p>
   </mat-expansion-panel>
 
-  <mat-expansion-panel>
+  <!-- mat exp. panel API offers @Output opened event (EventEmiter)-->
+  <mat-expansion-panel (opened)="openPanel(counter)">
     <mat-expansion-panel-header>
       <mat-panel-title>
         Show graph...
       </mat-panel-title>
       <mat-panel-description>Last month of health data as graph</mat-panel-description>
     </mat-expansion-panel-header>
-    <!-- todo: do lazy loading  -->
-    <p><app-line-chart  [counter]="counter"></app-line-chart></p>
+    <p><app-line-chart  *ngIf="selectedDevice == counter"[counter]="counter"></app-line-chart></p>
   </mat-expansion-panel>
 </div>

@@ -1,7 +1,18 @@
 <h2>Device Details for: {{counter.id}}</h2>
 
+<app-loading-indicator></app-loading-indicator>
+
 <app-device-details *ngIf="counter" [counter]="counter"></app-device-details>
 
-<app-bar-chart *ngIf="counter" [counter]="counter"></app-bar-chart>
+<div *ngIf="counter" class="wrapper">
+    <div id="one">
+        <app-bar-chart *ngIf="counter" [counter]="counter"></app-bar-chart>
 
-<app-line-chart *ngIf="counter" [counter]="counter"></app-line-chart>
+    </div>
+    <div id="two">
+
+        <app-line-chart *ngIf="counter" [counter]="counter"></app-line-chart>
+    </div>
+</div>
+
+

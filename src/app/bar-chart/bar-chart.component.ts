@@ -56,7 +56,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
   ngAfterViewInit(): void {
     //todo extract start time
     let observable = this.cloudService.getDeviceCounterData(this.counter.id, "2022-01-15");
-    let title = `Abfahrten auf Trail ${this.counter.id}`;
+    let title = `Abfahrten auf Trail: ${this.counter.id}`;
     
     observable.subscribe(data => {
       this.chartData.push({ data: data, label: title, yAxisID: 'y' });
