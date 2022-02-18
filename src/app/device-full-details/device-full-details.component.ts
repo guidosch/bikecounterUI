@@ -22,7 +22,6 @@ export class DeviceFullDetailsComponent implements OnInit {
       });
 
     });
-
   }
 
   ngOnInit(): void {

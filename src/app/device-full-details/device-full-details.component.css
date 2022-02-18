@@ -1,32 +1,33 @@
 .wrapper { 
-    border : 2px solid #000; 
+    /*border : 1px solid #000;*/
     overflow:hidden;
   }
   
   .wrapper div {
-     min-height: 400px;
+     min-height: 200px;
+     max-height: 400px;
      padding: 10px;
   }
   #one {
     float:left; 
     margin-right:20px;
-    width:400px;
-    border-right:2px solid #000;
+    width:600px;
+    /*border : 1px solid #000;*/
   }
   #two { 
     overflow:hidden;
     margin:10px;
-    border:2px dashed #ccc;
+    /*border : 1px solid #000;*/
     min-height:300px;
-    min-width: 400px;
+    min-width: 600px;
   }
   
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 900px) {
      #one { 
       float: none;
       margin-right:0;
       width:auto;
       border:0;
-      border-bottom:2px solid #000;    
+      /*border : 1px solid #000;*/   
     }
   }

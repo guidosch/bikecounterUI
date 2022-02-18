@@ -38,7 +38,7 @@ export class DeviceListComponent {
     //todo check with tobias about min voltage
     let errors: number = 0;
     if (counter.online){
-      if (counter.batteryVoltage < 3.7){
+      if (counter.batteryVoltage && counter.batteryVoltage < 3.7){
         errors++;
       } else if (counter.humidity > 80) {
         errors++;

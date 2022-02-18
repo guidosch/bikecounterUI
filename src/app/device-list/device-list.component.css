@@ -5,3 +5,8 @@
 .offline {
     color: red;
 }
+
+.line-chart-container {
+    min-height: 400px;
+    min-width: 600px;
+}
