@@ -4,11 +4,16 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
+
+/**
+ * Must be its own service and cannot be combined with the http interceptor class as each import creates an instance of the http interceptor.
+ */
 export class LoaderService {
 
   private isLoading: boolean = true;
 
-  constructor() { }
+  constructor() { 
+  }
 
   public show() {
     this.isLoading = true;

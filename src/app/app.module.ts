@@ -12,13 +12,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgChartsModule } from "ng2-charts";
 import { AppComponent } from './app.component';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
-import { CloudFunctionAPIService } from './cloud-function-summary.service';
 import { DeviceDetailsComponent } from './device-details/device-details.component';
 import { DeviceFullDetailsComponent } from './device-full-details/device-full-details.component';
 import { DeviceListComponent } from './device-list/device-list.component';
 import { LineChartComponent } from './line-chart/line-chart.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { LoadingIndicatorComponent } from './loading-indicator/loading-indicator.component';
+import { HttpInterceptService } from './http-intercept.service';
 
 
 @NgModule({
@@ -59,7 +59,7 @@ import { LoadingIndicatorComponent } from './loading-indicator/loading-indicator
     },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: CloudFunctionAPIService,
+      useClass: HttpInterceptService,
       multi: true
     }
   ]
