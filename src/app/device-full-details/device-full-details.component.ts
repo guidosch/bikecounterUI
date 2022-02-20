@@ -23,9 +23,10 @@ export class DeviceFullDetailsComponent implements OnInit {
 
     });
   }
-
-  ngOnInit(): void {
-    console.log("init called...");
-  }
+  
+  /** 
+  * example for a lifecycle function, there are many more...
+  */
+  ngOnInit(): void {}
 
 }

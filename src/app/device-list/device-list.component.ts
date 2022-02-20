@@ -51,6 +51,7 @@ export class DeviceListComponent {
     return counter.online ? "(online)" : "(offline)";
   }
 
+  /** example for ui action triggered with emmiter*/
   onNotify() {
     window.alert('show graph... for');
   }

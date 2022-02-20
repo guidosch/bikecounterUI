@@ -12,6 +12,10 @@ const urlCountData ="https://europe-west6-bikecounter.cloudfunctions.net/printDa
 @Injectable({
   providedIn: 'root'
 })
+
+/**
+ * Calls google cloud functions for counter and summary data.
+ */
 export class CloudFunctionDeviceService {
   constructor(private httpClient: HttpClient) { }
   

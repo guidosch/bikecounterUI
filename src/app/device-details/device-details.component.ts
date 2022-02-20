@@ -6,7 +6,7 @@ import { Counter } from '../Counter';
   templateUrl: './device-details.component.html',
   styleUrls: ['./device-details.component.css']
 })
-export class DeviceDetailsComponent implements OnInit {
+export class DeviceDetailsComponent {
 
   //object passed from parent component
   @Input() counter!: Counter;
@@ -26,9 +26,6 @@ export class DeviceDetailsComponent implements OnInit {
     }
     return "";
 
-  }
-
-  ngOnInit(): void {
   }
 
 }

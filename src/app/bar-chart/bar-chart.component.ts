@@ -12,7 +12,7 @@ import { Counter } from '../Counter';
   templateUrl: './bar-chart.component.html',
   styleUrls: ['./bar-chart.component.css']
 })
-export class BarChartComponent implements OnInit, OnDestroy {
+export class BarChartComponent {
   //allows access to the component
   @ViewChild(BaseChartDirective)
   baseChartDir!: BaseChartDirective;
@@ -65,11 +65,5 @@ export class BarChartComponent implements OnInit, OnDestroy {
   
     });
 
-  }
-
-  ngOnInit() {
-  }
-  ngOnDestroy() {
-    this.chartData = [];
   }
 }
