@@ -6,6 +6,8 @@ export interface Counter {
   batteryLevel: number;
   batteryVoltage: number;
   status: number;
+  swVersion: number;
+  hwVersion: number;
   location: string;
   sumLast24h: number;
   sumToday: number;
