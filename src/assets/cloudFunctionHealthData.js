@@ -39,12 +39,11 @@ exports.getDeviceHealthData = (request, response) => {
                     let batVoltage = doc.data().batteryVoltage;
                     let temperature = doc.data().temperature;
                     let humidity = doc.data().humidity;
-                    let timestamp = doc.data().timestamp;
-                    let timeAsString = moment(timestamp).format("YYYY-MM-DD HH:mm:ss");
-                    let bat = {x:`${timeAsString}`,y:batLevel};
-                    let volt = {x:`${timeAsString}`,y:batVoltage};
-                    let temp = {x:`${timeAsString}`,y:temperature};
-                    let hum = {x:`${timeAsString}`,y:humidity};
+                    let timestamp = new Date(doc.data().timestamp);
+                    let bat = {x:timestamp.getTime(),y:batLevel};
+                    let volt = {x:timestamp.getTime(),y:batVoltage};
+                    let temp = {x:timestamp.getTime(),y:temperature};
+                    let hum = {x:timestamp.getTime(),y:humidity};
                     healthData[0].data.push(bat);
                     healthData[1].data.push(volt);
                     healthData[2].data.push(temp);
