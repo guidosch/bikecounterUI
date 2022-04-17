@@ -40,7 +40,7 @@ exports.storeBikecounterData = (req, res) => {
         try {
             //store health metadata with the first DB entry
             let firstEntry = Array.from(map)[map.size-1];
-            firestore.collection(`${deviceId}`).add({'counter': firstEntry[1], 'timestamp': new Date(firstEntry[0]).toISOString(), 'batteryLevel': batteryLevel, 'batteryVoltage': batteryVoltage, 'humidity': humidity, 'temperature': temperature, 'stat': stat, 'gateways': gateways, 'swVersion': swVersion, 'hwVersion': hwVersion});
+            firestore.collection(`${deviceId}`).add({'counter': firstEntry[1], 'timestamp': new Date(firstEntry[0]).toISOString(), 'receivedAtTimestamp': new Date().toISOString(), 'batteryLevel': batteryLevel, 'batteryVoltage': batteryVoltage, 'humidity': humidity, 'temperature': temperature, 'stat': stat, 'gateways': gateways, 'swVersion': swVersion, 'hwVersion': hwVersion});
             console.log(`Added data for ${deviceId}`);
             map.delete(firstEntry[0]);
 

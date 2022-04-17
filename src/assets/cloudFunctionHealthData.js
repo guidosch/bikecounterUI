@@ -35,15 +35,19 @@ exports.getDeviceHealthData = (request, response) => {
             snapshot.forEach(doc => {
                 //basic documents have only timestamp and counter -> skip those
                 if (Object.keys(doc.data()).length > 2) {
+                    let timestamp = new Date(doc.data().timestamp);
+                    //first gen data has not yet the received at time
+                    if ('receivedAtTimestamp' in doc.data()){
+                        timestamp = new Date(doc.data().receivedAtTimestamp);
+                    }
                     let batLevel = doc.data().batteryLevel;
                     let batVoltage = doc.data().batteryVoltage;
                     let temperature = doc.data().temperature;
                     let humidity = doc.data().humidity;
-                    let timestamp = new Date(doc.data().timestamp);
-                    let bat = {x:timestamp.getTime(),y:batLevel};
-                    let volt = {x:timestamp.getTime(),y:batVoltage};
-                    let temp = {x:timestamp.getTime(),y:temperature};
-                    let hum = {x:timestamp.getTime(),y:humidity};
+                    let bat = { x: timestamp.getTime(), y: batLevel };
+                    let volt = { x: timestamp.getTime(), y: batVoltage };
+                    let temp = { x: timestamp.getTime(), y: temperature };
+                    let hum = { x: timestamp.getTime(), y: humidity };
                     healthData[0].data.push(bat);
                     healthData[1].data.push(volt);
                     healthData[2].data.push(temp);
