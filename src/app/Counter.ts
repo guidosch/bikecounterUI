@@ -13,7 +13,6 @@ export interface Counter {
   sumToday: number;
   gateways: Gateway;
   timestampLastMsg: string;
-  receivedAtTimestamp: string;
 }
 
 export interface Gateway {

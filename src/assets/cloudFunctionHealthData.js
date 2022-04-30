@@ -36,10 +36,6 @@ exports.getDeviceHealthData = (request, response) => {
                 //basic documents have only timestamp and counter -> skip those
                 if (Object.keys(doc.data()).length > 2) {
                     let timestamp = new Date(doc.data().timestamp);
-                    //first gen data has not yet the received at time
-                    if ('receivedAtTimestamp' in doc.data()){
-                        timestamp = new Date(doc.data().receivedAtTimestamp);
-                    }
                     let batLevel = doc.data().batteryLevel;
                     let batVoltage = doc.data().batteryVoltage;
                     let temperature = doc.data().temperature;

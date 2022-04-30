@@ -35,10 +35,10 @@ export class DeviceListComponent {
   }
 
   calcWarnings(counter: Counter) {
-    //todo check with tobias about min voltage
+    //Devices start having problems sending msg. below 2.8 volt.
     let errors: number = 0;
     if (counter.online){
-      if (counter.batteryVoltage && counter.batteryVoltage < 3.7){
+      if (counter.batteryVoltage && counter.batteryVoltage < 3.0){
         errors++;
       } else if (counter.humidity > 80) {
         errors++;

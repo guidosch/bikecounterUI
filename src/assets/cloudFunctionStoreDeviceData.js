@@ -26,6 +26,12 @@ exports.storeBikecounterData = (req, res) => {
         const hwVersion = devicePayload.hwVersion;
         const timeArray = devicePayload.timeArray;
         const gateways = payload.uplink_message.rx_metadata[0].gateway_ids;
+        const count = devicePayload.count;
+        let transmissionTime = devicePayload.deviceTransmissionTime;
+        if (transmissionTime){
+            //is sent as seconds since 1970 UTC
+            transmissionTime*1000;
+        }
 
         //create a map with unique timestamps as keys and sum up the counts per timestamp
         let map = new Map();
@@ -38,12 +44,9 @@ exports.storeBikecounterData = (req, res) => {
         });
 
         try {
-            //store health metadata with the first DB entry
-            let firstEntry = Array.from(map)[map.size-1];
-            firestore.collection(`${deviceId}`).add({'counter': firstEntry[1], 'timestamp': new Date(firstEntry[0]).toISOString(), 'receivedAtTimestamp': new Date().toISOString(), 'batteryLevel': batteryLevel, 'batteryVoltage': batteryVoltage, 'humidity': humidity, 'temperature': temperature, 'stat': stat, 'gateways': gateways, 'swVersion': swVersion, 'hwVersion': hwVersion});
+            firestore.collection(`${deviceId}`).add({'counter': 0, 'timestamp': new Date(transmissionTime).toISOString(), 'batteryLevel': batteryLevel, 'batteryVoltage': batteryVoltage, 'humidity': humidity, 'temperature': temperature, 'stat': stat, 'gateways': gateways, 'swVersion': swVersion, 'hwVersion': hwVersion});
             console.log(`Added data for ${deviceId}`);
-            map.delete(firstEntry[0]);
-
+            
             //one more DB entry for every timestamp
             for (let timestamp of map.keys()) {
                 let date = new Date(timestamp).toISOString();
