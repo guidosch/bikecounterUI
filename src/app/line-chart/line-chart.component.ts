@@ -26,6 +26,10 @@ export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit{
         type: 'linear',
         display: true,
         position: 'left',
+        title:{
+          display:true,
+          text: "Bat. level"
+        }
       },
       y1: {
         type: 'linear',
@@ -33,6 +37,10 @@ export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit{
         position: 'left',
         grid: {
           drawOnChartArea: false,
+        },
+        title:{
+          display:true,
+          text: "Bat. volt"
         }
       },
       y2: {
@@ -41,6 +49,10 @@ export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit{
         position: 'right',
         grid: {
           drawOnChartArea: false,
+        },
+        title:{
+          display:true,
+          text: "Temp."
         }
       },
       y3: {
@@ -49,6 +61,10 @@ export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit{
         position: 'right',
         grid: {
           drawOnChartArea: false, // only want the grid lines for one axis to show up
+        },
+        title:{
+          display:true,
+          text: "Humid."
         }
       },
       x: {
@@ -98,8 +114,8 @@ export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit{
           this.lineChartData.push({ data: element.data, label: 'Humidity', yAxisID: 'y3' });
         }
       });
-      //this calls the chart.update() method
       this.baseChartDir.ngOnChanges({});
+      this.baseChartDir.update();
   
     });
   }

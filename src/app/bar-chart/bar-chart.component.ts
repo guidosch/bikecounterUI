@@ -1,10 +1,12 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { formatDate } from "@angular/common";
 import { ActivatedRoute } from '@angular/router';
 import { ChartDataset, ChartOptions, ChartType } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import { BaseChartDirective } from 'ng2-charts';
 import { CloudFunctionDeviceService } from '../cloud-function-device.service';
 import { Counter } from '../Counter';
+import { SeriesElement } from '../TimeseriesData';
 
 
 @Component({
@@ -16,7 +18,7 @@ export class BarChartComponent {
   //allows access to the component
   @ViewChild(BaseChartDirective)
   baseChartDir!: BaseChartDirective;
-  
+
   private chartComponent: any;
   public chartData: ChartDataset[] = [];
   public chartOptions: ChartOptions = {
@@ -35,7 +37,7 @@ export class BarChartComponent {
       tooltip: {
         callbacks: {
           title: function (context) {
-            return context[0].label.substring(0, 12)
+            return formatDate(context[0].parsed.x, "fullDate", "en");
           }
         }
       }
@@ -48,22 +50,32 @@ export class BarChartComponent {
 
   //object passed from parent component
   @Input() counter!: Counter;
-  
+
   constructor(private route: ActivatedRoute, private service: CloudFunctionDeviceService) {
-    this.cloudService =service;
+    this.cloudService = service;
   }
-  
+
   ngAfterViewInit(): void {
-    let today:string = new Date().toISOString().split("T")[0];
+    let today: string = new Date().toISOString().split("T")[0];
     let observable = this.cloudService.getDeviceCounterData(this.counter.id, today);
     let title = `Abfahrten auf Trail: ${this.counter.id}`;
-    
-    observable.subscribe(data => {
-      this.chartData.push({ data: data, label: title, yAxisID: 'y' });
-      //this calls the chart.update() method
-      this.baseChartDir.ngOnChanges({});
-  
-    });
 
+    observable.subscribe(data => {
+      let backgroundColors = data.map(elem => colorWeekends(elem));
+      this.chartData.push({ data: data, label: title, yAxisID: 'y', backgroundColor: backgroundColors });
+
+      this.baseChartDir.ngOnChanges({});
+      this.baseChartDir.update();
+    });
+  }
+
+}
+
+function colorWeekends(elem: SeriesElement) {
+  let day = new Date(elem.x).getUTCDay();
+  if (day == 0 || day == 6) {
+    return "#bad6f2";
+  } else {
+    return "#1976d2"
   }
 }
