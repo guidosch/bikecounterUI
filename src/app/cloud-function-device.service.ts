@@ -5,8 +5,12 @@ import { SeriesElement } from './TimeseriesData';
 
 
 const urlDeviceSummary ="https://europe-west6-bikecounter.cloudfunctions.net/getDeviceSummaryPro?collection=";
+
 //collection=xy&q=2022-01-31
 const urlCountData ="https://europe-west6-bikecounter.cloudfunctions.net/printDailyGraphDataChartsjs?collection=";
+//collection=xy&q=2022-01-31
+const urlCountDataYear = "https://europe-west6-bikecounter.cloudfunctions.net/printGraphChartsJs?collection=";
+
 
 
 @Injectable({
@@ -21,6 +25,11 @@ export class CloudFunctionDeviceService {
   
   public getDeviceCounterData(id: string, startTime:string) {
     let url = urlCountData+id+"&q="+startTime;
+    return this.httpClient.get<SeriesElement[]>(url);
+  }
+
+  public getDeviceCounterDataYear(id: string, startTime:string) {
+    let url = urlCountDataYear+id+"&q="+startTime;
     return this.httpClient.get<SeriesElement[]>(url);
   }
 

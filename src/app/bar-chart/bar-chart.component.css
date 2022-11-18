@@ -1,3 +1,27 @@
 p {
-    font-family: Lato;
-  }
+  font-family: Lato;
+}
+
+label {
+  font-weight: normal;
+  margin-top: 5px;
+}
+
+.bar-chart-radio-group {
+  display: flex;
+  flex-direction: row;
+  margin: 15px 0;
+  align-items: flex-start;
+}
+
+.bar-chart-radio-button {
+  margin: 5px;
+}
+
+.mat-radio-label-content{
+  font-weight: normal;
+}
+.mat-radio-container {
+  width: 15px;
+  height: 15px;
+}

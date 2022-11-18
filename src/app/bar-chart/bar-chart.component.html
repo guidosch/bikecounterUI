@@ -1,3 +1,15 @@
-<canvas id="test1" #barChartComp baseChart [type]="chartType" [datasets]="chartData" [options]="chartOptions"
+<canvas id="test1" #barChartComp baseChart [type]="chartType" [datasets]="chartData" [options]="chartOptions()"
   [legend]="chartLegend" [plugins]="chartPlugins">
+  Loading...
 </canvas>
+
+<label id="example-radio-group-label">Select time range</label>
+<mat-radio-group
+class="bar-chart-radio-group"
+[(ngModel)]="selectedTimeRange"
+(ngModelChange)="onTimeRangeChange()">
+  <mat-radio-button class="bar-chart-radio-button" value="thisMonth" [checked]="true">This month</mat-radio-button>
+  <mat-radio-button class="bar-chart-radio-button" value="+1">Last month</mat-radio-button>
+  <mat-radio-button class="bar-chart-radio-button" value="+2">Two months back</mat-radio-button>
+  <mat-radio-button class="bar-chart-radio-button" value="year">Whole Year</mat-radio-button>
+</mat-radio-group>

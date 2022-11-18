@@ -2,6 +2,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatBadgeModule } from '@angular/material/badge';
+import {MatRadioModule} from '@angular/material/radio';
+import { FormsModule } from '@angular/forms';
 //Material design modules
 import { MatExpansionModule, MAT_EXPANSION_PANEL_DEFAULT_OPTIONS } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
@@ -35,7 +37,9 @@ import { HttpInterceptService } from './http-intercept.service';
     MatExpansionModule,
     MatBadgeModule,
     MatIconModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    MatRadioModule,
+    FormsModule
   ],
   declarations: [
     AppComponent,
