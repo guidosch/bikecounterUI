@@ -8,10 +8,9 @@ const urlDeviceSummary ="https://europe-west6-bikecounter.cloudfunctions.net/get
 
 //collection=xy&q=2022-01-31
 const urlCountData ="https://europe-west6-bikecounter.cloudfunctions.net/printDailyGraphDataChartsjs?collection=";
+
 //collection=xy&q=2022-01-31
 const urlCountDataYear = "https://europe-west6-bikecounter.cloudfunctions.net/printGraphChartsJs?collection=";
-
-
 
 @Injectable({
   providedIn: 'root'

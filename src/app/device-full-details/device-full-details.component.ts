@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CloudFunctionDeviceService } from '../cloud-function-device.service';
 import { Counter } from '../Counter';
+import { TrailCoordinates, trails} from '../TrailCoordinates';
 
 
 @Component({
@@ -19,6 +20,11 @@ export class DeviceFullDetailsComponent implements OnInit {
 
       this.apiService.getDeviceSummary(val[1].path).subscribe(data => {
         this.counter = data[0];
+        let trail = trails.get(this.counter.id);
+        if (trail){
+          let url = `https://map.geo.admin.ch/?lang=de&topic=ech&E${trail.x}=&N=${trail.y}&zoom=8`
+          this.counter.location = url;
+        }
       });
 
     });

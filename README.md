@@ -2,7 +2,7 @@
 
 Dashboard for all devices that are in use to monitor mountain bike traffic on the trails round Zürich.
 
-## ng serve (will start dev server)
+## ng serve (will start dev server on http://localhost:4200)
 Make sure you set an alias to the ng command if not globally available.
 `alias ng="./node_modules/@angular/cli/bin/ng.js"`
 
