@@ -18,16 +18,16 @@
             <td>{{counter.batteryLevel}}</td>
         </tr>
         <tr>
-            <td>Battery Voltage</td>
-            <td>{{counter.batteryVoltage}}</td>
+            <td [class.error]="checkBatteryVoltage(counter.batteryVoltage)">Battery Voltage</td>
+            <td [class.error]="checkBatteryVoltage(counter.batteryVoltage)">{{counter.batteryVoltage}}</td>
         </tr>
         <tr>
             <td>Temperature</td>
             <td>{{counter.temperature}}</td>
         </tr>
-        <tr>
-            <td>Humidity</td>
-            <td>{{counter.humidity}}</td>
+        <tr >
+            <td [class.error]="checkHumidity(counter.humidity)">Humidity</td>
+            <td [class.error]="checkHumidity(counter.humidity)">{{counter.humidity}}</td>
         </tr>
         <tr>
             <td>Receiving Gateways</td>
