@@ -12,11 +12,11 @@ import { Counter } from '../Counter';
   templateUrl: './line-chart.component.html',
   styleUrls: ['./line-chart.component.css']
 })
-export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit{
+export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit {
   //allows access to the component
   @ViewChild(BaseChartDirective)
   baseChartDir!: BaseChartDirective;
-  
+
   private chartComponent: any;
   public lineChartData: ChartDataset[] = [];
   private apiService: CloudFunctionHealthService;
@@ -26,8 +26,8 @@ export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit{
         type: 'linear',
         display: true,
         position: 'left',
-        title:{
-          display:true,
+        title: {
+          display: true,
           text: "Bat. level"
         }
       },
@@ -38,8 +38,8 @@ export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit{
         grid: {
           drawOnChartArea: false,
         },
-        title:{
-          display:true,
+        title: {
+          display: true,
           text: "Bat. volt"
         }
       },
@@ -50,8 +50,8 @@ export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit{
         grid: {
           drawOnChartArea: false,
         },
-        title:{
-          display:true,
+        title: {
+          display: true,
           text: "Temp."
         }
       },
@@ -62,8 +62,8 @@ export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit{
         grid: {
           drawOnChartArea: false, // only want the grid lines for one axis to show up
         },
-        title:{
-          display:true,
+        title: {
+          display: true,
           text: "Humid."
         }
       },
@@ -90,7 +90,7 @@ export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit{
 
   //object passed from parent component
   @Input() counter!: Counter;
-  
+
   constructor(private route: ActivatedRoute, private cloudService: CloudFunctionHealthService) {
     this.apiService = cloudService;
   }
@@ -99,10 +99,10 @@ export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit{
     this.baseChartDir.ngOnChanges({});
 
     let observable = this.apiService.getHealthDataForDevice(this.counter.id);
-  
+
     //will be called after data is fetched from server
     observable.subscribe(data => {
-      
+
       data.forEach(element => {
         if (element.measure === "batteryLevel") {
           this.lineChartData.push({ data: element.data, label: 'Battery level', yAxisID: 'y' });
@@ -116,7 +116,7 @@ export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit{
       });
       this.baseChartDir.ngOnChanges({});
       this.baseChartDir.update();
-  
+
     });
   }
 

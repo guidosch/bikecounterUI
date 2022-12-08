@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { formatDate } from "@angular/common";
 import { ActivatedRoute } from '@angular/router';
-import { ChartDataset, ChartOptions, ChartType } from 'chart.js';
+import { ChartDataset, ChartOptions, ChartType, ChartEvent } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import { BaseChartDirective } from 'ng2-charts';
 import { CloudFunctionDeviceService } from '../cloud-function-device.service';
@@ -43,7 +43,7 @@ export class BarChartComponent {
           }
         }
       }
-    } 
+    }
   };
 
   private chartOptionsMonth: ChartOptions = {
@@ -73,10 +73,10 @@ export class BarChartComponent {
   public chartType: ChartType = "bar";
   public chartPlugins = [];
   private cloudService: CloudFunctionDeviceService;
-  
+
   //object passed from parent component
   @Input() counter!: Counter;
-  
+
   constructor(private route: ActivatedRoute, private service: CloudFunctionDeviceService) {
     this.cloudService = service;
   }
@@ -94,7 +94,7 @@ export class BarChartComponent {
     this.destroyGraph();
     let today: string = timeQuery.toISOString().split("T")[0];
     let observable = this.cloudService.getDeviceCounterData(this.counter.id, today);
-    
+
     observable.subscribe(data => {
       let backgroundColors = data.map(elem => colorWeekends(elem));
       this.chartData.push({ data: data, label: this.getTitle(), yAxisID: 'y', backgroundColor: backgroundColors });
@@ -102,7 +102,7 @@ export class BarChartComponent {
     });
   }
 
-  
+
   private getTitle() {
     return `Abfahrten auf Trail: ${this.counter.id}`;
   }
@@ -111,20 +111,31 @@ export class BarChartComponent {
     this.destroyGraph();
     let today: string = new Date().toISOString().split("T")[0];
     let observable = this.cloudService.getDeviceCounterDataYear(this.counter.id, today);
-    
+
     observable.subscribe(data => {
       this.chartData.push({ data: data, label: this.getTitle(), yAxisID: 'y', backgroundColor: "#1976d2" });
       this.baseChartDir.ngOnChanges({});
     });
   }
-  
+
   private destroyGraph() {
     this.chartData = [];
     this.baseChartDir.chart?.destroy();
   }
-  
-  chartOptions(){
-    if (this.selectedTimeRange === "year"){
+
+  public chartClicked({ event, active }: { event?: ChartEvent, active?: {}[] }): void {
+    if (active) {
+      try {
+        let index = (active[0] as any).index;
+        console.log(new Date((this.chartData[0].data[index] as any).x));
+      } catch (error) {
+        console.log("chart click no data found!");
+      }
+    }
+  }
+
+  chartOptions() {
+    if (this.selectedTimeRange === "year") {
       return this.chartOptionsMonth;
     }
     return this.chartOptionsDay;

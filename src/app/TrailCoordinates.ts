@@ -4,7 +4,7 @@ export interface TrailCoordinates {
   y: number;
 }
 
-// maps url e.g. https://map.geo.admin.ch/?lang=de&topic=ech&E=2662834.08&N=1208541.90&zoom=8
+// maps url e.g. 
 
 const adlisberg: TrailCoordinates = {
   x: 2686133.808,
