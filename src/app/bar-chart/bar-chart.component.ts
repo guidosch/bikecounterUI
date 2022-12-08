@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild, AfterViewInit, Inject } from '@angular/core';
 import { formatDate } from "@angular/common";
 import { ActivatedRoute } from '@angular/router';
 import { ChartDataset, ChartOptions, ChartType, ChartEvent } from 'chart.js';
@@ -7,21 +7,19 @@ import { BaseChartDirective } from 'ng2-charts';
 import { CloudFunctionDeviceService } from '../cloud-function-device.service';
 import { Counter } from '../Counter';
 import { SeriesElement } from '../TimeseriesData';
-import { TemplateBindingParseResult } from '@angular/compiler';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-
+// @Component annotation belongs to the class header like in e.g. java. It binds the components to this class
 @Component({
   selector: 'app-bar-chart',
   templateUrl: './bar-chart.component.html',
   styleUrls: ['./bar-chart.component.css']
 })
-
 export class BarChartComponent {
   //allows access to the component
   @ViewChild(BaseChartDirective)
   baseChartDir!: BaseChartDirective;
 
-  private chartComponent: any;
   public chartData: ChartDataset[] = [];
   private chartOptionsDay: ChartOptions = {
     scales: {
@@ -69,16 +67,16 @@ export class BarChartComponent {
     }
   };
 
-  public chartLegend = true;
   public chartType: ChartType = "bar";
-  public chartPlugins = [];
   private cloudService: CloudFunctionDeviceService;
+  private dialog: MatDialog;
 
   //object passed from parent component
   @Input() counter!: Counter;
 
-  constructor(private route: ActivatedRoute, private service: CloudFunctionDeviceService) {
+  constructor(private route: ActivatedRoute, private service: CloudFunctionDeviceService, dialog: MatDialog) {
     this.cloudService = service;
+    this.dialog = dialog;
   }
   selectedTimeRange: string = "thisMonth";
 
@@ -127,7 +125,8 @@ export class BarChartComponent {
     if (active) {
       try {
         let index = (active[0] as any).index;
-        console.log(new Date((this.chartData[0].data[index] as any).x));
+        let chooseDay = new Date((this.chartData[0].data[index] as any).x).toISOString();
+        this.openDialog('0ms', '0ms', chooseDay, this.counter.id);
       } catch (error) {
         console.log("chart click no data found!");
       }
@@ -159,6 +158,18 @@ export class BarChartComponent {
     }
   }
 
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string, day: string, id: string): void {
+    this.dialog.open(DialogChartDialog, {
+      width: '1250px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data: {
+        day,
+        id
+      }
+    });
+  }
+
 }
 
 function monthBack(month: number): Date {
@@ -172,6 +183,60 @@ function colorWeekends(elem: SeriesElement) {
     return "#bad6f2";
   } else {
     return "#1976d2"
+  }
+}
+
+/**
+ * Dialog component and class
+ */
+@Component({
+  selector: 'dialog-chart-dialog',
+  templateUrl: 'dialog-chart-dialog.html',
+})
+export class DialogChartDialog implements OnDestroy, AfterViewInit {
+
+  @ViewChild(BaseChartDirective)
+  baseChartDir!: BaseChartDirective;
+
+  public chartData: ChartDataset[] = [];
+  public chartOptions: ChartOptions = {
+    scales: {
+      y: {
+        beginAtZero: true
+      },
+      x: {
+        type: 'time',
+        time: {
+          unit: 'day'
+        }
+      }
+    },
+    plugins: {
+      tooltip: {
+        callbacks: {
+          title: function (context) {
+            return formatDate(context[0].parsed.x, "fullDate", "en");
+          }
+        }
+      }
+    }
+  };
+  public chartType: ChartType = "bar";
+
+  constructor(public dialogRef: MatDialogRef<DialogChartDialog>, @Inject(MAT_DIALOG_DATA) public data: Date) { }
+
+  ngAfterViewInit(): void {
+      
+  }
+
+  ngOnDestroy(): void {
+      
+
+    
+  }
+
+  close(): void {
+    this.dialogRef.close();
   }
 }
 

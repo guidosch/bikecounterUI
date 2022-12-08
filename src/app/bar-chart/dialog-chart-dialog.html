@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Abfahrten am Tag: {{data}}</h1>
+<div mat-dialog-content>
+    <canvas id="dayChart" #dialogChartDialog baseChart [type]="chartType" [datasets]="chartData" [options]="chartOptions"
+    [legend]="true" [plugins]=[]>
+    Loading...
+  </canvas>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="close()" mat-dialog-close cdkFocusInitial>Close</button>
+</div>

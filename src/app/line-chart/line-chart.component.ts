@@ -96,8 +96,6 @@ export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.baseChartDir.ngOnChanges({});
-
     let observable = this.apiService.getHealthDataForDevice(this.counter.id);
 
     //will be called after data is fetched from server
@@ -115,7 +113,6 @@ export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       });
       this.baseChartDir.ngOnChanges({});
-      this.baseChartDir.update();
 
     });
   }

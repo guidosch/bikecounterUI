@@ -1,9 +1,10 @@
-<canvas id="test1" #barChartComp baseChart [type]="chartType" [datasets]="chartData" [options]="chartOptions()"
-  [legend]="chartLegend" [plugins]="chartPlugins">
+<canvas id="barChart" #barChartComp baseChart [type]="chartType" [datasets]="chartData" [options]="chartOptions()"
+  [legend]=true [plugins]=[] (chartClick)="chartClicked($event)">
   Loading...
 </canvas>
 
 <label id="example-radio-group-label">Select time range</label>
+
 <mat-radio-group
 class="bar-chart-radio-group"
 [(ngModel)]="selectedTimeRange"
