@@ -12,7 +12,7 @@ export class HttpInterceptService implements HttpInterceptor {
   constructor(private loader: LoaderService) { }
 
   /**
-   * Http interceptor hocked sich in alle requests ein. Kann z.b. für Auth. oder eben loading icon genutzt werden.
+   * Http interceptor hocked sich in alle requests ein. Kann z.b. für Auth. oder loading icon genutzt werden.
    * @param req 
    * @param next 
    * @returns 

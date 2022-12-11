@@ -1,7 +1,7 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild, AfterViewInit, Inject } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild, AfterViewInit, Inject, AfterContentInit } from '@angular/core';
 import { formatDate } from "@angular/common";
 import { ActivatedRoute } from '@angular/router';
-import { ChartDataset, ChartOptions, ChartType, ChartEvent } from 'chart.js';
+import { Chart, ChartDataset, ChartOptions, ChartType, ChartEvent } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import { BaseChartDirective } from 'ng2-charts';
 import { CloudFunctionDeviceService } from '../cloud-function-device.service';
@@ -33,6 +33,7 @@ export class BarChartComponent {
         }
       }
     },
+    locale:"de-DE",
     plugins: {
       tooltip: {
         callbacks: {
@@ -56,6 +57,7 @@ export class BarChartComponent {
         }
       }
     },
+    locale:"de-DE",
     plugins: {
       tooltip: {
         callbacks: {
@@ -160,7 +162,7 @@ export class BarChartComponent {
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string, day: string, id: string): void {
     this.dialog.open(DialogChartDialog, {
-      width: '1250px',
+      width: '1500px',
       enterAnimationDuration,
       exitAnimationDuration,
       data: {
@@ -186,6 +188,17 @@ function colorWeekends(elem: SeriesElement) {
   }
 }
 
+function colorKeepAliveMsg(elem: SeriesElement) {
+  return elem.y === 0.5 ? "red" : "#1976d2";
+}
+
+
+type DialogData = {
+  day: string;
+  id: string;
+};
+
+
 /**
  * Dialog component and class
  */
@@ -193,7 +206,7 @@ function colorWeekends(elem: SeriesElement) {
   selector: 'dialog-chart-dialog',
   templateUrl: 'dialog-chart-dialog.html',
 })
-export class DialogChartDialog implements OnDestroy, AfterViewInit {
+export class DialogChartDialog implements OnDestroy, OnInit, AfterViewInit {
 
   @ViewChild(BaseChartDirective)
   baseChartDir!: BaseChartDirective;
@@ -207,33 +220,68 @@ export class DialogChartDialog implements OnDestroy, AfterViewInit {
       x: {
         type: 'time',
         time: {
-          unit: 'day'
+          unit: 'hour'
         }
       }
     },
+    //locale:"de-DE",
     plugins: {
       tooltip: {
         callbacks: {
           title: function (context) {
-            return formatDate(context[0].parsed.x, "fullDate", "en");
+            return formatDate(context[0].parsed.x, "full", "en");
           }
         }
       }
     }
   };
   public chartType: ChartType = "bar";
+  private cloudService: CloudFunctionDeviceService;
 
-  constructor(public dialogRef: MatDialogRef<DialogChartDialog>, @Inject(MAT_DIALOG_DATA) public data: Date) { }
+  constructor(private service: CloudFunctionDeviceService, public dialogRef: MatDialogRef<DialogChartDialog>, @Inject(MAT_DIALOG_DATA) public dialogData: DialogData) {
+    this.cloudService = service;
+    this.dialogData = dialogData;
+  }
+
+  ngOnInit(): void {
+    //this.fetchData();
+  }
+
+  fetchData() {
+    let clickedDay: string = this.dialogData.day.split("T")[0];
+    let observable = this.cloudService.getDeviceCounterDataSingleDay(this.dialogData.id, clickedDay);
+
+    observable.subscribe(data => {
+      //only show the last 25 elements otherwise graph does not show bars
+      let reduced = data;
+      console.log("data.lenght: "+data.length);
+      if (data.length > 25){
+        reduced = data.slice(data.length-25, data.length);
+      }
+      let markedKeepAliveMsg = reduced.map(elem => {
+        if (elem.y === 0){
+          return {...elem, y : 0.5};
+        }
+        return elem;
+      });
+      console.log("markedKeepAliveMsg.lenght: "+markedKeepAliveMsg.length);
+      
+      let backgroundColors = markedKeepAliveMsg.map(elem => colorKeepAliveMsg(elem));
+      console.log(JSON.stringify(markedKeepAliveMsg));
+      this.chartData.push({ data: markedKeepAliveMsg, label: this.dialogData.id, yAxisID: 'y', backgroundColor: backgroundColors, barThickness:3 });
+      this.baseChartDir.ngOnChanges({});
+    });
+  }
 
   ngAfterViewInit(): void {
-      
+    this.fetchData();
   }
-
+  
   ngOnDestroy(): void {
-      
-
-    
+    this.chartData = [];
+    this.baseChartDir.chart?.destroy();
   }
+
 
   close(): void {
     this.dialogRef.close();

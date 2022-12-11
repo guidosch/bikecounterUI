@@ -1,9 +1,14 @@
-<h1 mat-dialog-title>Abfahrten am Tag: {{data}}</h1>
+<app-loading-indicator></app-loading-indicator>
+
+<h1 mat-dialog-title>Abfahrten am Tag: {{dialogData.day | date:'fullDate'}} (rot: "keep alive" Nachrichten)</h1>
+<p>Es werden nur die letzten 25 Einträge angezeigt!</p>
 <div mat-dialog-content>
+  <div style="margin: 30px;">
     <canvas id="dayChart" #dialogChartDialog baseChart [type]="chartType" [datasets]="chartData" [options]="chartOptions"
-    [legend]="true" [plugins]=[]>
+    [legend]=false [plugins]=[]>
     Loading...
   </canvas>
+</div>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="close()" mat-dialog-close cdkFocusInitial>Close</button>

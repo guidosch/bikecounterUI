@@ -17,7 +17,7 @@ import { NgChartsModule } from "ng2-charts";
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 
-//components
+//components. Everny ng comp. must be imported and listed below
 import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { DeviceDetailsComponent } from './device-details/device-details.component';
 import { DeviceFullDetailsComponent } from './device-full-details/device-full-details.component';
