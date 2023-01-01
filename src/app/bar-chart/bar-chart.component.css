@@ -21,7 +21,12 @@ label {
 .mat-radio-label-content{
   font-weight: normal;
 }
+
 .mat-radio-container {
   width: 15px;
   height: 15px;
+}
+
+table {
+  width: 100%;
 }

@@ -1,15 +1,43 @@
 <app-loading-indicator></app-loading-indicator>
 
-<h1 mat-dialog-title>Abfahrten am Tag: {{dialogData.day | date:'fullDate'}} (rot: "keep alive" Nachrichten)</h1>
-<p>Es werden nur die letzten 25 Einträge angezeigt!</p>
-<div mat-dialog-content>
-  <div style="margin: 30px;">
-    <canvas id="dayChart" #dialogChartDialog baseChart [type]="chartType" [datasets]="chartData" [options]="chartOptions"
-    [legend]=false [plugins]=[]>
-    Loading...
-  </canvas>
-</div>
-</div>
+<mat-dialog-content *ngIf="dialogGraphViewMode">
+  <h1 mat-dialog-title>Abfahrten am Tag: {{dialogData.day | date:'fullDate'}} (rot: "keep alive" Nachrichten)</h1>
+  <p>Es werden nur die letzten 50 Einträge angezeigt!</p>
+  <div mat-dialog-content>
+    <div style="margin: 30px;">
+      <canvas id="dayChart" #dialogChartDialog baseChart [type]="chartType" [datasets]="chartData"
+        [options]="chartOptions" [legend]=false [plugins]=[]>
+        Loading...
+      </canvas>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-content *ngIf="!dialogGraphViewMode && tableData.length > 0">
+  <table mat-table [dataSource]="tableData" class="mat-elevation-z8">
+
+    <!-- timestamp Column -->
+    <ng-container matColumnDef="x">
+      <th mat-header-cell *matHeaderCellDef> Timestamp (localtime) </th>
+      <td mat-cell *matCellDef="let element"> {{element.x | date: 'short':'de-CH'}} </td>
+    </ng-container>
+  
+    <!-- Counter Column -->
+    <ng-container matColumnDef="y">
+      <th mat-header-cell *matHeaderCellDef> Anz. Abfahrten </th>
+      <td mat-cell *matCellDef="let element"> {{element.y}} </td>
+    </ng-container>
+
+    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+  </table>
+
+</mat-dialog-content>
+
 <div mat-dialog-actions>
   <button mat-button (click)="close()" mat-dialog-close cdkFocusInitial>Close</button>
+  <button *ngIf="dialogGraphViewMode" style="margin-left: 1%;" mat-button (click)="tableView()"
+    cdkFocusInitial>Tabellen Ansicht</button>
+  <button *ngIf="!dialogGraphViewMode" style="margin-left: 1%;" mat-button (click)="graphView()"
+    cdkFocusInitial>Graph Ansicht</button>
 </div>

@@ -211,7 +211,10 @@ export class DialogChartDialog implements OnDestroy, OnInit, AfterViewInit {
   @ViewChild(BaseChartDirective)
   baseChartDir!: BaseChartDirective;
 
+  dialogGraphViewMode: boolean = true;
+  displayedColumns: string[] = ['x', 'y'];
   public chartData: ChartDataset[] = [];
+  public tableData: SeriesElement[]= [];
   public chartOptions: ChartOptions = {
     scales: {
       y: {
@@ -254,9 +257,8 @@ export class DialogChartDialog implements OnDestroy, OnInit, AfterViewInit {
     observable.subscribe(data => {
       //only show the last 25 elements otherwise graph does not show bars
       let reduced = data;
-      console.log("data.lenght: "+data.length);
-      if (data.length > 25){
-        reduced = data.slice(data.length-25, data.length);
+      if (data.length > 50){
+        reduced = data.slice(-50);
       }
       let markedKeepAliveMsg = reduced.map(elem => {
         if (elem.y === 0){
@@ -264,11 +266,10 @@ export class DialogChartDialog implements OnDestroy, OnInit, AfterViewInit {
         }
         return elem;
       });
-      console.log("markedKeepAliveMsg.lenght: "+markedKeepAliveMsg.length);
       
       let backgroundColors = markedKeepAliveMsg.map(elem => colorKeepAliveMsg(elem));
-      console.log(JSON.stringify(markedKeepAliveMsg));
       this.chartData.push({ data: markedKeepAliveMsg, label: this.dialogData.id, yAxisID: 'y', backgroundColor: backgroundColors, barThickness:3 });
+      this.tableData = data;
       this.baseChartDir.ngOnChanges({});
     });
   }
@@ -279,12 +280,21 @@ export class DialogChartDialog implements OnDestroy, OnInit, AfterViewInit {
   
   ngOnDestroy(): void {
     this.chartData = [];
+    this.tableData = [];
     this.baseChartDir.chart?.destroy();
   }
 
-
   close(): void {
     this.dialogRef.close();
+    this.dialogGraphViewMode = true;
+  }
+
+  tableView(): void {
+    this.dialogGraphViewMode = false;
+  }
+
+  graphView(): void {
+    this.dialogGraphViewMode = true;
   }
 }
 

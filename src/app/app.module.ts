@@ -1,8 +1,11 @@
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
+import { registerLocaleData } from '@angular/common';
+import localeDECH from '@angular/common/locales/de-CH';
+registerLocaleData(localeDECH);
 
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -16,6 +19,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgChartsModule } from "ng2-charts";
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table';
 
 //components. Everny ng comp. must be imported and listed below
 import { BarChartComponent } from './bar-chart/bar-chart.component';
@@ -49,7 +53,8 @@ import { HttpInterceptService } from './http-intercept.service';
     MatRadioModule,
     FormsModule,
     MatDialogModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatTableModule
   ],
   declarations: [
     AppComponent,
@@ -76,7 +81,8 @@ import { HttpInterceptService } from './http-intercept.service';
       provide: HTTP_INTERCEPTORS,
       useClass: HttpInterceptService,
       multi: true
-    }
+    },
+    { provide: LOCALE_ID, useValue: 'de-CH' }
   ]
 })
 export class AppModule { }
