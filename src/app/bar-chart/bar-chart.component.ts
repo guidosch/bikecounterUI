@@ -107,10 +107,13 @@ export class BarChartComponent {
     return `Abfahrten auf Trail: ${this.counter.id}`;
   }
 
-  fetchDataYear() {
+  /**
+   * 
+   * @param startDateIso e.g. 2023-01-23
+   */
+  fetchDataYear(startDateIso: string) {
     this.destroyGraph();
-    let today: string = new Date().toISOString().split("T")[0];
-    let observable = this.cloudService.getDeviceCounterDataYear(this.counter.id, today);
+    let observable = this.cloudService.getDeviceCounterDataYear(this.counter.id, startDateIso);
 
     observable.subscribe(data => {
       this.chartData.push({ data: data, label: this.getTitle(), yAxisID: 'y', backgroundColor: "#1976d2" });
@@ -155,7 +158,11 @@ export class BarChartComponent {
         this.fetchData(monthBack(2));
         break;
       case "year":
-        this.fetchDataYear();
+        this.fetchDataYear(new Date().toISOString().split("T")[0]);
+        break;
+        case "lastYear":
+        let lastYear = new Date(new Date().setFullYear(new Date().getFullYear()-1));
+        this.fetchDataYear(lastYear.toISOString().split("T")[0]);
         break;
     }
   }
