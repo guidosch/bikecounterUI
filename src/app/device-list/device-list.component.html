@@ -29,7 +29,7 @@
   <mat-expansion-panel (opened)="openPanel(counter)">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        Show graph...
+        Show health graph...
       </mat-panel-title>
       <mat-panel-description>Last month of health data as graph.</mat-panel-description>
     </mat-expansion-panel-header>
@@ -39,4 +39,19 @@
       </p>
     </div>
   </mat-expansion-panel>
+
+  <mat-expansion-panel (opened)="openPanel(counter)">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Show counter graph...
+      </mat-panel-title>
+      <mat-panel-description>Last month of counter data as graph.</mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="line-chart-container">
+      <p>
+        <app-bar-chart *ngIf="selectedDevice == counter" [counter]="counter"></app-bar-chart>
+      </p>
+    </div>
+  </mat-expansion-panel>
+
 </div>
