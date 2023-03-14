@@ -26,6 +26,8 @@ export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit {
         type: 'linear',
         display: true,
         position: 'left',
+        min: 0,
+        max: 100,
         title: {
           display: true,
           text: "Bat. level"
@@ -38,9 +40,11 @@ export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit {
         grid: {
           drawOnChartArea: false,
         },
+        min: 3,
+        max:4.5,
         title: {
           display: true,
-          text: "Bat. volt"
+          text: "Bat. volt",
         }
       },
       y2: {
