@@ -1,5 +1,7 @@
 export interface Counter {
   id: string;
+  name: string;
+  description: string;
   online: boolean;
   temperature: number;
   humidity: number;

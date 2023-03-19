@@ -2,7 +2,7 @@
 
 <div *ngFor="let counter of counters | async">
   <h3>
-    <a [title]="counter.id + ' details'" [routerLink]="['/devices', counter.id]">{{ counter.id }}</a>&nbsp;
+    <a [title]="'ID: '+counter.id + ' show details'" [routerLink]="['/devices', counter.id]">{{ counter.name }}</a>&nbsp;
     <span [class.online]="isOnline(counter)" [class.offline]="!isOnline(counter)">{{ isOnlineMsg(counter)
       }}</span>&nbsp;
 

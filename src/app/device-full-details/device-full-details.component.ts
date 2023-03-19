@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CloudFunctionDeviceService } from '../cloud-function-device.service';
 import { Counter } from '../Counter';
-import { TrailCoordinates, trails } from '../TrailCoordinates';
+import { TrailCoordinates, trails } from '../Trails';
 
 
 @Component({
@@ -22,7 +22,7 @@ export class DeviceFullDetailsComponent implements OnInit {
         this.counter = data[0];
         let trail = trails.get(this.counter.id);
         if (trail) {
-          let url = `https://map.geo.admin.ch/?lang=de&topic=ech&E${trail.x}=&N=${trail.y}&zoom=8`
+          let url = `https://map.geo.admin.ch/?lang=de&topic=ech&E${trail.coordinates.x}=&N=${trail.coordinates.y}&zoom=8`
           this.counter.location = url;
         }
       });

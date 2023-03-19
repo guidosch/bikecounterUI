@@ -2,8 +2,9 @@ import { HttpClient, HttpErrorResponse, HttpEvent, HttpHandler, HttpRequest } fr
 import { Injectable } from '@angular/core';
 //needed for httpClient error handling
 import { Observable, throwError } from 'rxjs';
-import { catchError, retry, finalize } from 'rxjs/operators';
+import { catchError, retry, finalize, map } from 'rxjs/operators';
 import { Counter } from './Counter';
+import {trails} from './Trails';
 
 
 @Injectable({
@@ -23,9 +24,21 @@ export class CloudFunctionAPIService {
 
     let url = "https://europe-west6-bikecounter.cloudfunctions.net/getDevicesSummaryPro";
     return this.httpClient.get<Counter[]>(url).pipe(
+      map(
+        res => {
+          return res.map(counter => {
+            let trail = trails.get(counter.id);
+            if (trail){
+              counter.name = trail.name;
+              counter.description = trail.description;
+            }
+            return counter;
+          });
+        }
+      ),
       retry(2), // retry a failed request up to 2 times
       catchError(this.handleError)
-    );;
+    );
 
   }
 

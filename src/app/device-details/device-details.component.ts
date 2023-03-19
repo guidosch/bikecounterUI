@@ -1,6 +1,6 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { Counter } from '../Counter';
-import { TrailCoordinates, trails } from '../TrailCoordinates';
+import { TrailCoordinates, trails } from '../Trails';
 
 @Component({
   selector: 'app-device-details',
@@ -22,7 +22,7 @@ export class DeviceDetailsComponent {
     let trail = trails.get(this.counter.id);
     if (trail) {
       //let url = `https://map.geo.admin.ch/?lang=de&topic=ech&E${trail.x}=&N=${trail.y}&zoom=8`;
-      let url = `http://map.geo.admin.ch/?Y=${trail.x}&X=${trail.y}&zoom=10&crosshair=marker`;
+      let url = `http://map.geo.admin.ch/?Y=${trail.coordinates.x}&X=${trail.coordinates.y}&zoom=10&crosshair=marker`;
       this.counter.location = url;
     }
   }
