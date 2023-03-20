@@ -1,9 +1,3 @@
-# .htaccess-Datei für Passwortschutz
-AuthType Basic
-AuthName "Geschützter Bereich - Bitte geben Sie ein Passwort ein!"
-AuthUserFile .htpasswd
-Require valid-user
-
 <IfModule mod_rewrite.c>
     RewriteEngine on
 

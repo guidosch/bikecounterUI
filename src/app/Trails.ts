@@ -17,8 +17,8 @@ const adlisbergCoord: TrailCoordinates = {
 }
 
 const allmendCoord: TrailCoordinates = {
-  x: 1400000,
-  y: 1500000
+  x: 2681249,
+  y: 1244764
 }
 
 const antennentrailCoord: TrailCoordinates = {
