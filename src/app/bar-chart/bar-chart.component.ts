@@ -72,6 +72,7 @@ export class BarChartComponent {
   public chartType: ChartType = "bar";
   private cloudService: CloudFunctionDeviceService;
   private dialog: MatDialog;
+  visibleSum: number = 0;
 
   //object passed from parent component
   @Input() counter!: Counter;
@@ -92,6 +93,7 @@ export class BarChartComponent {
 
   fetchData(timeQuery: Date = new Date()) {
     this.destroyGraph();
+    this.visibleSum = 0;
     let today: string = timeQuery.toISOString().split("T")[0];
     let observable = this.cloudService.getDeviceCounterData(this.counter.id, today);
 
@@ -99,6 +101,7 @@ export class BarChartComponent {
       let backgroundColors = data.map(elem => colorWeekends(elem));
       this.chartData.push({ data: data, label: this.getTitle(), yAxisID: 'y', backgroundColor: backgroundColors });
       this.baseChartDir.ngOnChanges({});
+      this.visibleSum = data.map(elem => elem.y).reduce((accumulator, currentValue) => accumulator + currentValue,0);
     });
   }
 
@@ -113,11 +116,13 @@ export class BarChartComponent {
    */
   fetchDataYear(startDateIso: string) {
     this.destroyGraph();
+    this.visibleSum = 0;
     let observable = this.cloudService.getDeviceCounterDataYear(this.counter.id, startDateIso);
 
     observable.subscribe(data => {
       this.chartData.push({ data: data, label: this.getTitle(), yAxisID: 'y', backgroundColor: "#1976d2" });
       this.baseChartDir.ngOnChanges({});
+      this.visibleSum = data.map(elem => elem.y).reduce((accumulator, currentValue) => accumulator + currentValue,0);
     });
   }
 
@@ -139,11 +144,10 @@ export class BarChartComponent {
   }
 
   chartOptions() {
-    if (this.selectedTimeRange === "year") {
+    if (this.selectedTimeRange === "year" || this.selectedTimeRange === "lastYear") {
       return this.chartOptionsMonth;
     }
     return this.chartOptionsDay;
-
   }
 
   onTimeRangeChange() {
@@ -160,7 +164,7 @@ export class BarChartComponent {
       case "year":
         this.fetchDataYear(new Date().toISOString().split("T")[0]);
         break;
-        case "lastYear":
+      case "lastYear":
         let lastYear = new Date(new Date().setFullYear(new Date().getFullYear()-1));
         this.fetchDataYear(lastYear.toISOString().split("T")[0]);
         break;
