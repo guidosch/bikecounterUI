@@ -3,7 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { CloudFunctionDeviceService } from '../cloud-function-device.service';
 import { Counter } from '../Counter';
 import { TrailCoordinates, trails } from '../Trails';
+import { AuthService } from '@auth0/auth0-angular';
 
+const rolesPrefix = "https://bikecounter.ch/roles";
 
 @Component({
   selector: 'app-device-full-details',
@@ -13,11 +15,18 @@ import { TrailCoordinates, trails } from '../Trails';
 export class DeviceFullDetailsComponent implements OnInit {
 
   counter!: Counter;
+  route: ActivatedRoute;
+  roles: string[] | undefined;
 
-  constructor(private route: ActivatedRoute, private apiService: CloudFunctionDeviceService) {
+  constructor(route: ActivatedRoute, private apiService: CloudFunctionDeviceService, public auth: AuthService) {
+    this.route = route;
+  }
+  
+  ngOnInit(): void {
     let deviceID: string = "";
-    route.pathFromRoot[1].url.subscribe(val => {
-
+    this.route.pathFromRoot[1].url.subscribe(val => {
+      
+      //todo use auth0 roles to filter counters
       this.apiService.getDeviceSummary(val[1].path).subscribe(data => {
         this.counter = data[0];
         let trail = trails.get(this.counter.id);
@@ -26,10 +35,23 @@ export class DeviceFullDetailsComponent implements OnInit {
           this.counter.location = url;
         }
       });
-
+  
     });
+    this.loadUser();
   }
 
-  ngOnInit(): void { }
+  loadUser() {
+    this.auth.user$.subscribe(
+      (profile) => {
+        if (profile) {
+          this.roles = profile[`${rolesPrefix}`];
+        }
+      }
+      );
+  }
+
+  checkRole() {
+    return this.roles?.includes("admin");
+  }
 
 }

@@ -1,6 +1,8 @@
-<app-loading-indicator></app-loading-indicator>
+<ng-container *ngIf="checkRole() else nonAuthenticated">
 
-<div *ngFor="let counter of counters | async">
+  <app-loading-indicator></app-loading-indicator>
+
+  <div *ngFor="let counter of counters | async">
   <h3>
     <a [title]="'ID: '+counter.id + ' show details'" [routerLink]="['/devices', counter.id]">{{ counter.name }}</a>&nbsp;
     <span [class.online]="isOnline(counter)" [class.offline]="!isOnline(counter)">{{ isOnlineMsg(counter)
@@ -55,3 +57,12 @@
   </mat-expansion-panel>
 
 </div>
+
+</ng-container>
+
+<ng-template #nonAuthenticated>
+<div>
+  <p>Du bist nicht angemeldet! Bitte einloggen oder registieren.</p>  
+  <p>Um Zugriff auf diese Seite zu bekommen, bitte registieren (log in -> Sing up...) und eine Email mit deinem Benutzernamen an <a href="mailto:guido.schnider@zueritrails.ch">guido.schnider@zueritrails.ch</a> senden.</p>
+</div>
+</ng-template>

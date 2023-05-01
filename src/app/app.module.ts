@@ -30,9 +30,12 @@ import { LineChartComponent } from './line-chart/line-chart.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { LoadingIndicatorComponent } from './loading-indicator/loading-indicator.component';
 import { DialogChartDialog } from './bar-chart/bar-chart.component';
+import { AuthGuard, AuthModule } from '@auth0/auth0-angular';
 
 //service
 import { HttpInterceptService } from './http-intercept.service';
+import LoginButtonComponent from './login-button/login-button.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 
 @NgModule({
@@ -43,7 +46,7 @@ import { HttpInterceptService } from './http-intercept.service';
     NgChartsModule,
     RouterModule.forRoot([
       { path: '', component: DeviceListComponent },
-      { path: 'devices/:deviceId', component: DeviceFullDetailsComponent },
+      { path: 'devices/:deviceId', component: DeviceFullDetailsComponent, canActivate: [AuthGuard] },
     ]),
     NoopAnimationsModule,
     MatExpansionModule,
@@ -54,7 +57,16 @@ import { HttpInterceptService } from './http-intercept.service';
     FormsModule,
     MatDialogModule,
     BrowserAnimationsModule,
-    MatTableModule
+    MatTableModule,
+
+    AuthModule.forRoot({
+      domain: 'dev-bwfmsrrxqbduxtt7.eu.auth0.com',
+      clientId: 'x0BdHatdCZ2E9XEzGdotMPYx4uoLVeFN',
+      authorizationParams: {
+        redirect_uri: window.location.origin,
+        audience: 'https://dev-bwfmsrrxqbduxtt7.eu.auth0.com/api/v2/',
+      }
+    }),
   ],
   declarations: [
     AppComponent,
@@ -65,7 +77,9 @@ import { HttpInterceptService } from './http-intercept.service';
     LineChartComponent,
     BarChartComponent,
     LoadingIndicatorComponent,
-    DialogChartDialog
+    DialogChartDialog,
+    LoginButtonComponent,
+    UserProfileComponent
   ],
   bootstrap: [
     AppComponent

@@ -1,16 +1,20 @@
-import { Component, ViewChild, SimpleChange } from '@angular/core';
+import { Component, ViewChild, SimpleChange, OnInit } from '@angular/core';
 import { MatBadge } from '@angular/material/badge';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { CloudFunctionAPIService } from '../cloud-function-summary.service';
 import { Counter } from '../Counter';
+import { AuthService } from '@auth0/auth0-angular';
+import { Observable } from 'rxjs';
+
+const rolesPrefix = "https://bikecounter.ch/roles"
 
 @Component({
   selector: 'app-device-list',
   templateUrl: './device-list.component.html',
   styleUrls: ['./device-list.component.css'],
 })
-export class DeviceListComponent {
+export class DeviceListComponent implements OnInit {
   @ViewChild(MatExpansionPanel)
   expansionPanel!: MatExpansionPanel;
 
@@ -20,14 +24,33 @@ export class DeviceListComponent {
 
   faExclamationTriangle = faExclamationTriangle;
 
-  counters = this.apiService.getDevices();
   selectedDevice: Counter | undefined;
+  roles: string[] | undefined;
 
-  constructor(private apiService: CloudFunctionAPIService ) {
+  counters: Observable<Counter[]> | undefined ;
+  
+  constructor(private apiService: CloudFunctionAPIService, public auth: AuthService ) {
   }
-
+  
+  ngOnInit() {
+    this.auth.user$.subscribe(
+      (profile) => {
+        if (profile) {
+          this.roles = profile[`${rolesPrefix}`];
+          //console.log("Profile: "+JSON.stringify(profile));
+        }
+      }
+      );
+      //todo use auth0 roles to filter counters
+      this.counters = this.apiService.getDevices();
+  }
+  
   details(counter: Counter) {
     this.selectedDevice = counter;
+  }
+
+  checkRole() {
+    return this.roles?.includes("admin");
   }
 
   isOnline(counter: Counter) {
