@@ -19,3 +19,16 @@ e.g. `sudo n lts` --> will install the newest LTS version.
 ng build --output-path build
 Push the changes to the repo and the webserver will pick it up automatically.
 
+### .htaccess for angular deep links
+When deploying the .htaccess may get deleted.
+Copy the following content to the .htaccess file (same level as index.html)
+
+```
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [NC,L]
+
+RewriteRule ^(.*) /index.html [NC,L]
+```
