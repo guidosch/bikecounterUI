@@ -31,7 +31,7 @@
         </tr>
         <tr>
             <td>Receiving Gateways</td>
-            <td>{{extractSingleGatewayId(counter)}}</td>
+            <td>{{countGateways(counter)}} <a *ngIf="countGateways(counter) > 0" (click)="openDialog(counter)">&nbsp;Show details...</a></td>
         </tr>
         <tr>
             <td>Last message</td>

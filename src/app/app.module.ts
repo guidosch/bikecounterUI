@@ -23,7 +23,7 @@ import { MatTableModule } from '@angular/material/table';
 
 //components. Everny ng comp. must be imported and listed below
 import { BarChartComponent } from './bar-chart/bar-chart.component';
-import { DeviceDetailsComponent } from './device-details/device-details.component';
+import { DeviceDetailsComponent, GatewaysDialog } from './device-details/device-details.component';
 import { DeviceFullDetailsComponent } from './device-full-details/device-full-details.component';
 import { DeviceListComponent } from './device-list/device-list.component';
 import { LineChartComponent } from './line-chart/line-chart.component';
@@ -73,6 +73,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     TopBarComponent,
     DeviceListComponent,
     DeviceDetailsComponent,
+    GatewaysDialog,
     DeviceFullDetailsComponent,
     LineChartComponent,
     BarChartComponent,

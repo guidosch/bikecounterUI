@@ -13,11 +13,14 @@ export interface Counter {
   location: string;
   sumLast24h: number;
   sumToday: number;
-  gateways: Gateway;
+  gateways: Gateway | Gateway[];
   timestampLastMsg: string;
+  airtime: number;
 }
 
 export interface Gateway {
   eui: string;
-  gateway_id:string;
+  id: string;
+  rssi: number;
+  snr: number;
 }

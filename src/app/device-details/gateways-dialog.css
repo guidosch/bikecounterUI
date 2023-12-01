@@ -1,0 +1,14 @@
+th,
+td {
+  text-align: left !important;
+  padding-right: 10px
+}
+
+table {
+  width: 100%;
+  text-align: left;
+}
+
+.error {
+  color: red !important;
+}

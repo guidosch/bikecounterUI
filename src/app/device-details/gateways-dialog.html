@@ -1,0 +1,21 @@
+<mat-dialog-content>
+  <h3>Receiving Gateways</h3>
+  <p>Signal airtime: {{airtime}}</p>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Eui</th>
+      <th>Rssi</th>
+      <th>Snr</th>
+    </tr>
+    <tr *ngFor="let gateway of gateways">{{gateway.id}}
+      <td>{{gateway.eui}}</td>
+      <td>{{gateway.rssi}}</td>
+      <td>{{gateway.snr}}</td>
+    </tr>
+  </table>
+</mat-dialog-content>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="close()" mat-dialog-close cdkFocusInitial>Close</button>
+</div>
