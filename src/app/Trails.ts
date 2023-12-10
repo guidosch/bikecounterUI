@@ -39,26 +39,26 @@ const adlisberg: Trail = {
 
 const allmend: Trail = {
   name: "Allmend Trail",
-  description: "Einstiger Trail, ",
+  description: "Einsteiger Trail, der sich gut für die ersten Versuche eignet.",
   coordinates: allmendCoord
 }
 
 const antennentrail: Trail = {
   name: "Antennen Trail",
   description: "Start beim Antennenmast auf dem Gipfel vom Uetliberg. 3Km Abfahrt...",
-  coordinates: allmendCoord
+  coordinates: antennentrailCoord
 }
 
 const hoeckler: Trail = {
   name: "Höckler Trail",
-  description: "Höcker Trail by Züritrails...",
-  coordinates: allmendCoord
+  description: "Höcker Trail by Züritrails. Anspruchsvoller Trail mit einige Elementen für Fortgeschrittene.",
+  coordinates: hoecklerCoord
 }
 
 export const trails = new Map<string, Trail>();
 trails.set("adlisberg-trail-1", adlisberg);
 trails.set("allmendtrail-1", allmend);
 trails.set("antennentrail-1", antennentrail);
-trails.set("hoecker-new-3", hoeckler);
+trails.set("hoeckler-new-3", hoeckler);
 
 
