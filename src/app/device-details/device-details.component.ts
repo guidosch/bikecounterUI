@@ -18,6 +18,7 @@ export class DeviceDetailsComponent {
   constructor( dialog: MatDialog) {
     this.dialog = dialog;
   }
+  firebaseUrl: string = "";
 
   ngOnInit(): void {
     let trail = trails.get(this.counter.id);
@@ -26,6 +27,7 @@ export class DeviceDetailsComponent {
       let url = `http://map.geo.admin.ch/?Y=${trail.coordinates.x}&X=${trail.coordinates.y}&zoom=10&crosshair=marker`;
       this.counter.location = url;
     }
+    this.firebaseUrl = `https://console.cloud.google.com/firestore/databases/-default-/data/query;queryModel=2%7CORD%7C9%2Ftimestamp%7CDESC%7CLIM%7C2%2F50;collection=%2F${this.counter.id}?project=bikecounter`;
   }
 
   checkBatteryVoltage(volt: number): boolean {
