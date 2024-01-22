@@ -1,68 +1,73 @@
-<ng-container *ngIf="checkRole() else nonAuthenticated">
+<ng-container *ngIf="checkRole() else nonAuthenticated" class="reset">
 
   <app-loading-indicator></app-loading-indicator>
 
-  <div *ngFor="let counter of counters | async">
-  <h3>
-    <a [title]="'ID: '+counter.id + ' show details'" [routerLink]="['/devices', counter.id]">{{ counter.name }}</a>&nbsp;
-    <span [class.online]="isOnline(counter)" [class.offline]="!isOnline(counter)">{{ isOnlineMsg(counter)
-      }}</span>&nbsp;
+  <div class="grid-container">
 
-    <mat-icon [matBadgeHidden]="calcWarnings(counter) === 0" matBadge="{{calcWarnings(counter)}}" matBadgeColor="warn">
-      <fa-icon *ngIf="calcWarnings(counter) > 0" matBadgeColor="warn" [icon]="faExclamationTriangle"></fa-icon>
-    </mat-icon>
+    <div *ngFor="let counter of counters | async" class="grid-item">
+      <h3>
+        <a [title]="'ID: '+counter.id + ' show details'" [routerLink]="['/devices', counter.id]">{{ counter.name
+          }}</a>&nbsp;
+        <span [class.online]="isOnline(counter)" [class.offline]="!isOnline(counter)">{{ isOnlineMsg(counter)
+          }}</span>&nbsp;
 
-  </h3>
+        <mat-icon [matBadgeHidden]="calcWarnings(counter) === 0" matBadge="{{calcWarnings(counter)}}"
+          matBadgeColor="warn">
+          <fa-icon *ngIf="calcWarnings(counter) > 0" matBadgeColor="warn" [icon]="faExclamationTriangle"></fa-icon>
+        </mat-icon>
+      </h3>
 
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Summary...
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>
+            <app-device-details [counter]="counter">
+            </app-device-details>
+          </p>
+        </mat-expansion-panel>
 
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Show Summary...
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <p>
-      <app-device-details [counter]="counter">
-      </app-device-details>
-    </p>
-  </mat-expansion-panel>
+        <!-- mat exp. panel API offers @Output opened event (EventEmmiter)-->
+        <mat-expansion-panel (opened)="openPanel(counter)">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Health graph...
+            </mat-panel-title>
+            <mat-panel-description>Health data as graph.</mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="line-chart-container">
+            <p>
+              <app-line-chart *ngIf="selectedDevice == counter" [counter]="counter"></app-line-chart>
+            </p>
+          </div>
+        </mat-expansion-panel>
 
-  <!-- mat exp. panel API offers @Output opened event (EventEmmiter)-->
-  <mat-expansion-panel (opened)="openPanel(counter)">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Show health graph...
-      </mat-panel-title>
-      <mat-panel-description>Last month of health data as graph.</mat-panel-description>
-    </mat-expansion-panel-header>
-    <div class="line-chart-container">
-      <p>
-        <app-line-chart *ngIf="selectedDevice == counter" [counter]="counter"></app-line-chart>
-      </p>
+        <mat-expansion-panel (opened)="openPanel(counter)">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Counter graph...
+            </mat-panel-title>
+            <mat-panel-description>Counter data as graph.</mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="line-chart-container">
+            <p>
+              <app-bar-chart *ngIf="selectedDevice == counter" [counter]="counter"></app-bar-chart>
+            </p>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
     </div>
-  </mat-expansion-panel>
-
-  <mat-expansion-panel (opened)="openPanel(counter)">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Show counter graph...
-      </mat-panel-title>
-      <mat-panel-description>Last month of counter data as graph.</mat-panel-description>
-    </mat-expansion-panel-header>
-    <div class="line-chart-container">
-      <p>
-        <app-bar-chart *ngIf="selectedDevice == counter" [counter]="counter"></app-bar-chart>
-      </p>
-    </div>
-  </mat-expansion-panel>
-
-</div>
+  </div>
 
 </ng-container>
 
 <ng-template #nonAuthenticated>
-<div>
-  <p>Du bist nicht angemeldet! Bitte einloggen oder registieren.</p>  
-  <p>Um Zugriff auf diese Seite zu bekommen, bitte registieren (log in -> Sing up...) und eine Email mit deinem Benutzernamen an <a href="mailto:guido.schnider@zueritrails.ch">guido.schnider@zueritrails.ch</a> senden.</p>
-</div>
+  <div>
+    <p>Du bist nicht angemeldet! Bitte einloggen oder registieren.</p>
+    <p>Um Zugriff auf diese Seite zu bekommen, bitte registieren (log in -> Sing up...) und eine Email mit deinem
+      Benutzernamen an <a href="mailto:guido.schnider@zueritrails.ch">guido.schnider@zueritrails.ch</a> senden.</p>
+  </div>
 </ng-template>

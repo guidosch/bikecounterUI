@@ -4,7 +4,7 @@
   <h1 mat-dialog-title>Abfahrten am Tag: {{dialogData.day | date:'fullDate'}} (rot: "keep alive" Nachrichten)</h1>
   <p>Es werden nur die letzten 50 Einträge angezeigt!</p>
   <div mat-dialog-content>
-    <div style="margin: 30px;">
+    <div>
       <canvas id="dayChart" #dialogChartDialog baseChart [type]="chartType" [datasets]="chartData"
         [options]="chartOptions" [legend]=false [plugins]=[]>
         Loading...

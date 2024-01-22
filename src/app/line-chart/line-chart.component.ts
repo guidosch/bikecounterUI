@@ -21,6 +21,7 @@ export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit {
   public lineChartData: ChartDataset[] = [];
   private apiService: CloudFunctionHealthService;
   public lineChartOptions: ChartOptions = {
+    responsive: true,
     scales: {
       y: {
         type: 'linear',

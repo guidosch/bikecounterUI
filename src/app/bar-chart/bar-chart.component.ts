@@ -22,6 +22,7 @@ export class BarChartComponent {
 
   public chartData: ChartDataset[] = [];
   private chartOptionsDay: ChartOptions = {
+    responsive: true,
     scales: {
       y: {
         beginAtZero: true
@@ -46,6 +47,7 @@ export class BarChartComponent {
   };
 
   private chartOptionsMonth: ChartOptions = {
+    responsive: true,
     scales: {
       y: {
         beginAtZero: true
@@ -227,6 +229,7 @@ export class DialogChartDialog implements OnDestroy, OnInit, AfterViewInit {
   public chartData: ChartDataset[] = [];
   public tableData: SeriesElement[]= [];
   public chartOptions: ChartOptions = {
+    responsive: true,
     scales: {
       y: {
         beginAtZero: true
