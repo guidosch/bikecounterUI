@@ -15,6 +15,7 @@ const rolesPrefix = "https://bikecounter.ch/roles"
   styleUrls: ['./device-list.component.css'],
 })
 export class DeviceListComponent implements OnInit {
+
   @ViewChild(MatExpansionPanel)
   expansionPanel!: MatExpansionPanel;
 
@@ -27,11 +28,11 @@ export class DeviceListComponent implements OnInit {
   selectedDevice: Counter | undefined;
   roles: string[] | undefined;
 
-  counters: Observable<Counter[]> | undefined ;
-  
-  constructor(private apiService: CloudFunctionAPIService, public auth: AuthService ) {
+  counters: Observable<Counter[]> | undefined;
+
+  constructor(private apiService: CloudFunctionAPIService, public auth: AuthService) {
   }
-  
+
   ngOnInit() {
     this.auth.user$.subscribe(
       (profile) => {
@@ -40,11 +41,11 @@ export class DeviceListComponent implements OnInit {
           //console.log("Profile: "+JSON.stringify(profile));
         }
       }
-      );
-      //todo use auth0 roles to filter counters
-      this.counters = this.apiService.getDevices();
+    );
+    //todo use auth0 roles to filter counters
+    this.counters = this.apiService.getDevices();
   }
-  
+
   details(counter: Counter) {
     this.selectedDevice = counter;
   }
@@ -60,13 +61,13 @@ export class DeviceListComponent implements OnInit {
   calcWarnings(counter: Counter) {
     //Devices start having problems sending msg. below/equal ~3.0 volt.
     let errors: number = 0;
-    if (counter.online){
-      if (counter.batteryVoltage && counter.batteryVoltage < 3.1){
+    if (counter.online) {
+      if (counter.batteryVoltage && counter.batteryVoltage < 3.1) {
         errors++;
       } else if (counter.humidity > 80) {
         errors++;
       }
-   }
+    }
     return errors;
   }
 
@@ -80,8 +81,12 @@ export class DeviceListComponent implements OnInit {
   }
 
   openPanel(counter: Counter) {
-    console.log("Panel opened for: "+counter.id);
+    console.log("Panel opened for: " + counter.id);
     this.selectedDevice = counter;
   }
-  
+
+  closedPanel(counter: Counter) {
+    console.log("Panel opened for: " + counter.id);
+  }
+
 }

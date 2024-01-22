@@ -1,17 +1,16 @@
-<canvas id="barChart" #barChartComp baseChart [type]="chartType" [datasets]="chartData" [options]="chartOptions()"
-  [legend]=true [plugins]=[] (chartClick)="chartClicked($event)">
-  Loading...
-</canvas>
+<div class="chart-container">
+  <canvas id="barChart" #barChartComp baseChart [type]="chartType" [datasets]="chartData" [options]="chartOptions()"
+    [legend]=true [plugins]=[] (chartClick)="chartClicked($event)">
+    Loading...
+  </canvas>
+</div>
 
 <div class="flex">
   <label id="example-radio-group-label">Select time range</label>
   <label>Sum visible Data: {{visibleSum}}</label>
 </div>
 
-<mat-radio-group
-class="bar-chart-radio-group"
-[(ngModel)]="selectedTimeRange"
-(ngModelChange)="onTimeRangeChange()">
+<mat-radio-group class="bar-chart-radio-group" [(ngModel)]="selectedTimeRange" (ngModelChange)="onTimeRangeChange()">
   <mat-radio-button class="bar-chart-radio-button" value="thisMonth" [checked]="true">This month</mat-radio-button>
   <mat-radio-button class="bar-chart-radio-button" value="+1">Last month</mat-radio-button>
   <mat-radio-button class="bar-chart-radio-button" value="+2">Two months back</mat-radio-button>

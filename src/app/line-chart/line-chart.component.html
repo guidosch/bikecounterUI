@@ -1,5 +1,7 @@
 <app-loading-indicator></app-loading-indicator>
 
-<canvas #linechartComp baseChart [type]="lineChartType" [datasets]="lineChartData" [options]="lineChartOptions"
-  [legend]="lineChartLegend" [plugins]="lineChartPlugins">
-</canvas>
+<div class="chart-container">
+  <canvas #linechartComp baseChart [type]="lineChartType" [datasets]="lineChartData" [options]="lineChartOptions"
+    [legend]="lineChartLegend" [plugins]="lineChartPlugins">
+  </canvas>
+</div>
