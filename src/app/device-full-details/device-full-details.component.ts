@@ -54,4 +54,12 @@ export class DeviceFullDetailsComponent implements OnInit {
     return this.roles?.includes("admin");
   }
 
+  isOnline(counter: Counter) {
+    return counter.online;
+  }
+
+  isOnlineMsg(counter: Counter) {
+    return counter.online ? "(online)" : "(offline)";
+  }
+
 }

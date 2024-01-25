@@ -129,6 +129,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 /**
   my styles
 */
+
+.online {
+  color: green;
+}
+
+.offline {
+  color: red;
+}
 .user-profile {
   display: none;
 }
