@@ -153,6 +153,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .chart-container {
   position: relative;
+  min-width: 10%;
+  min-height: 10%;
   width: 90%;
   height: 90%;
 }

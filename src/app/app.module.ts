@@ -45,7 +45,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     HttpClientModule,
     NgChartsModule,
     RouterModule.forRoot([
-      { path: '', component: DeviceListComponent },
+      { path: '', component: DeviceListComponent, canActivate: [AuthGuard] },
       { path: 'devices/:deviceId', component: DeviceFullDetailsComponent, canActivate: [AuthGuard] },
     ]),
     NoopAnimationsModule,

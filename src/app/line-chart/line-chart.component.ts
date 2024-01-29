@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ChartDataset, ChartOptions, ChartType } from 'chart.js';
+import { ChartDataset, ChartEvent, ChartOptions, ChartType } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import { BaseChartDirective } from 'ng2-charts';
 import { CloudFunctionHealthService } from '../cloud-function-health.service';
@@ -13,15 +13,17 @@ import { Counter } from '../Counter';
   styleUrls: ['./line-chart.component.css']
 })
 export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit {
-  //allows access to the component
+
+  
   @ViewChild(BaseChartDirective)
   baseChartDir!: BaseChartDirective;
-
+  id: string = "default";
   private chartComponent: any;
   public lineChartData: ChartDataset[] = [];
   private apiService: CloudFunctionHealthService;
   public lineChartOptions: ChartOptions = {
     responsive: true,
+    //maintainAspectRatio: false,
     scales: {
       y: {
         type: 'linear',
@@ -42,7 +44,7 @@ export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit {
           drawOnChartArea: false,
         },
         min: 3,
-        max:4.5,
+        max: 4.5,
         title: {
           display: true,
           text: "Bat. volt",
@@ -91,11 +93,11 @@ export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit {
   };
   public lineChartLegend = true;
   public lineChartType: ChartType = "line";
-  public lineChartPlugins = [];
 
-  //object passed from parent component
   @Input() counter!: Counter;
 
+  @ViewChild('lineChartDiv') lineChartDiv!: ElementRef;
+  
   constructor(private route: ActivatedRoute, private cloudService: CloudFunctionHealthService) {
     this.apiService = cloudService;
   }
@@ -103,28 +105,38 @@ export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit(): void {
     let observable = this.apiService.getHealthDataForDevice(this.counter.id);
 
-    //will be called after data is fetched from server
     observable.subscribe(data => {
-
+      let temp: ChartDataset[] = [];
       data.forEach(element => {
         if (element.measure === "batteryLevel") {
-          this.lineChartData.push({ data: element.data, label: 'Battery level', yAxisID: 'y' });
+          temp.push({ data: element.data, label: 'Battery level', yAxisID: 'y' });
         } else if (element.measure === "batteryVoltage") {
-          this.lineChartData.push({ data: element.data, label: 'Battery voltage', yAxisID: 'y1' });
+          temp.push({ data: element.data, label: 'Battery voltage', yAxisID: 'y1' });
         } else if (element.measure === "temperature") {
-          this.lineChartData.push({ data: element.data, label: 'Temperature', yAxisID: 'y2' });
+          temp.push({ data: element.data, label: 'Temperature', yAxisID: 'y2' });
         } else if (element.measure === "humidity") {
-          this.lineChartData.push({ data: element.data, label: 'Humidity', yAxisID: 'y3' });
+          temp.push({ data: element.data, label: 'Humidity', yAxisID: 'y3' });
         }
       });
+      this.lineChartData.push(...temp);
       this.baseChartDir.ngOnChanges({});
+      this.baseChartDir.update();
+
+      // this is a hack due to the problem of the chart shrinking to zero when data arrives.
+      let flexContainer = this.lineChartDiv.nativeElement.parentElement.parentElement.parentElement;;
+      if (flexContainer.className == "flex-container") {
+        this.lineChartDiv.nativeElement.style.width = flexContainer.offsetWidth/3+"px";
+        this.baseChartDir.chart?.resize();
+      }
 
     });
   }
 
   ngOnInit() {
+    this.id = crypto.randomUUID();
   }
   ngOnDestroy() {
     this.lineChartData = [];
   }
+
 }

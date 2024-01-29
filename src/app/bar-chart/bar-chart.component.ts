@@ -15,10 +15,12 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
   templateUrl: './bar-chart.component.html',
   styleUrls: ['./bar-chart.component.css']
 })
-export class BarChartComponent {
+export class BarChartComponent implements OnInit{
+
   //allows access to the component
   @ViewChild(BaseChartDirective)
   baseChartDir!: BaseChartDirective;
+  id: string = "default";
 
   public chartData: ChartDataset[] = [];
   private chartOptionsDay: ChartOptions = {
@@ -34,7 +36,7 @@ export class BarChartComponent {
         }
       }
     },
-    locale:"de-DE",
+    locale: "de-DE",
     plugins: {
       tooltip: {
         callbacks: {
@@ -59,7 +61,7 @@ export class BarChartComponent {
         }
       }
     },
-    locale:"de-DE",
+    locale: "de-DE",
     plugins: {
       tooltip: {
         callbacks: {
@@ -87,6 +89,7 @@ export class BarChartComponent {
 
   ngOnInit() {
     this.selectedTimeRange = "thisMonth";
+    this.id = crypto.randomUUID();
   }
 
   ngAfterViewInit(): void {
@@ -102,8 +105,9 @@ export class BarChartComponent {
     observable.subscribe(data => {
       let backgroundColors = data.map(elem => colorWeekends(elem));
       this.chartData.push({ data: data, label: this.getTitle(), yAxisID: 'y', backgroundColor: backgroundColors });
+      this.visibleSum = data.map(elem => elem.y).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
       this.baseChartDir.ngOnChanges({});
-      this.visibleSum = data.map(elem => elem.y).reduce((accumulator, currentValue) => accumulator + currentValue,0);
+      this.baseChartDir.update();
     });
   }
 
@@ -124,7 +128,7 @@ export class BarChartComponent {
     observable.subscribe(data => {
       this.chartData.push({ data: data, label: this.getTitle(), yAxisID: 'y', backgroundColor: "#1976d2" });
       this.baseChartDir.ngOnChanges({});
-      this.visibleSum = data.map(elem => elem.y).reduce((accumulator, currentValue) => accumulator + currentValue,0);
+      this.visibleSum = data.map(elem => elem.y).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
     });
   }
 
@@ -167,7 +171,7 @@ export class BarChartComponent {
         this.fetchDataYear(new Date().toISOString().split("T")[0]);
         break;
       case "lastYear":
-        let lastYear = new Date(new Date().setFullYear(new Date().getFullYear()-1));
+        let lastYear = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
         this.fetchDataYear(lastYear.toISOString().split("T")[0]);
         break;
     }
@@ -227,7 +231,7 @@ export class DialogChartDialog implements OnDestroy, OnInit, AfterViewInit {
   dialogGraphViewMode: boolean = true;
   displayedColumns: string[] = ['x', 'y'];
   public chartData: ChartDataset[] = [];
-  public tableData: SeriesElement[]= [];
+  public tableData: SeriesElement[] = [];
   public chartOptions: ChartOptions = {
     responsive: true,
     scales: {
@@ -271,18 +275,18 @@ export class DialogChartDialog implements OnDestroy, OnInit, AfterViewInit {
     observable.subscribe(data => {
       //only show the last 25 elements otherwise graph does not show bars
       let reduced = data;
-      if (data.length > 50){
+      if (data.length > 50) {
         reduced = data.slice(-50);
       }
       let markedKeepAliveMsg = reduced.map(elem => {
-        if (elem.y === 0){
-          return {...elem, y : 0.5};
+        if (elem.y === 0) {
+          return { ...elem, y: 0.5 };
         }
         return elem;
       });
-      
+
       let backgroundColors = markedKeepAliveMsg.map(elem => colorKeepAliveMsg(elem));
-      this.chartData.push({ data: markedKeepAliveMsg, label: this.dialogData.id, yAxisID: 'y', backgroundColor: backgroundColors, barThickness:3 });
+      this.chartData.push({ data: markedKeepAliveMsg, label: this.dialogData.id, yAxisID: 'y', backgroundColor: backgroundColors, barThickness: 3 });
       this.tableData = data;
       this.baseChartDir.ngOnChanges({});
     });
@@ -291,7 +295,7 @@ export class DialogChartDialog implements OnDestroy, OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.fetchData();
   }
-  
+
   ngOnDestroy(): void {
     this.chartData = [];
     this.tableData = [];
