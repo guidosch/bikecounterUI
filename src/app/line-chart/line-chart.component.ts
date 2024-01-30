@@ -123,7 +123,7 @@ export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit {
       this.baseChartDir.update();
 
       // this is a hack due to the problem of the chart shrinking to zero when data arrives.
-      let flexContainer = this.lineChartDiv.nativeElement.parentElement.parentElement.parentElement;
+      let flexContainer = this.lineChartDiv.nativeElement.parentElement?.parentElement?.parentElement;
       let firstClassName = flexContainer.className.split(" ")[0];
       if (firstClassName == "flex-container") {
         let width = flexContainer.offsetWidth;
