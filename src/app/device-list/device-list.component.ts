@@ -1,4 +1,4 @@
-import { Component, ViewChild, SimpleChange, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { MatBadge } from '@angular/material/badge';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';

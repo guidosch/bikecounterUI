@@ -40,7 +40,7 @@
           </mat-expansion-panel-header>
           <div class="line-chart-container">
             <p>
-              <app-line-chart *ngIf="selectedDevice == counter" [counter]="counter"></app-line-chart>
+              <app-line-chart [counter]="counter"></app-line-chart>
             </p>
           </div>
         </mat-expansion-panel>
@@ -54,7 +54,7 @@
           </mat-expansion-panel-header>
           <div class="line-chart-container">
             <p>
-              <app-bar-chart *ngIf="selectedDevice == counter" [counter]="counter"></app-bar-chart>
+              <app-bar-chart  [counter]="counter"></app-bar-chart>
             </p>
           </div>
         </mat-expansion-panel>
