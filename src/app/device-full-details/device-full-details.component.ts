@@ -21,37 +21,35 @@ export class DeviceFullDetailsComponent implements OnInit {
   constructor(route: ActivatedRoute, private apiService: CloudFunctionDeviceService, public auth: AuthService) {
     this.route = route;
   }
-  
+
   ngOnInit(): void {
     let deviceID: string = "";
     this.route.pathFromRoot[1].url.subscribe(val => {
-      
-      //todo use auth0 roles to filter counters
-      this.apiService.getDeviceSummary(val[1].path).subscribe(data => {
-        this.counter = data[0];
-        let trail = trails.get(this.counter.id);
-        if (trail) {
-          let url = `https://map.geo.admin.ch/?lang=de&topic=ech&E${trail.coordinates.x}=&N=${trail.coordinates.y}&zoom=8`
-          this.counter.location = url;
-        }
-      });
-  
-    });
-    this.loadUser();
-  }
 
-  loadUser() {
-    this.auth.user$.subscribe(
-      (profile) => {
-        if (profile) {
-          this.roles = profile[`${rolesPrefix}`];
+      //todo: writh with rxjs. First call depends on second call
+      this.auth.user$.subscribe(
+        (profile) => {
+          if (profile) {
+            this.roles = profile[`${rolesPrefix}`];
+
+            //load device
+            this.apiService.getDeviceSummary(val[1].path, this.roles).subscribe(data => {
+              this.counter = data[0];
+              let trail = trails.get(this.counter.id);
+              if (trail) {
+                let url = `https://map.geo.admin.ch/?lang=de&topic=ech&E${trail.coordinates.x}=&N=${trail.coordinates.y}&zoom=8`
+                this.counter.location = url;
+              }
+            });
+
+          }
         }
-      }
       );
+    });
   }
 
   checkRole() {
-    return this.roles?.includes("admin");
+    return this.roles?.includes("approved");
   }
 
   isOnline(counter: Counter) {

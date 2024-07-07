@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpEvent, HttpHandler, HttpRequest } fr
 import { Injectable } from '@angular/core';
 //needed for httpClient error handling
 import { Observable, throwError } from 'rxjs';
-import { catchError, retry, finalize, map } from 'rxjs/operators';
+import { catchError, retry, map } from 'rxjs/operators';
 import { Counter } from './Counter';
 import {trails} from './Trails';
 
@@ -17,7 +17,7 @@ export class CloudFunctionAPIService {
   /**
    * returns a list of devices with its common properties.
    */
-  public getDevices() {
+  public getDevices(roles: string[] | undefined) {
     //load from API. Http Client return an Observable and and contains the Counter objects inside in the body.
     //The Observable can be consumed directly in the UI/html with the "| async" command.
     //return this.httpClient.get<Counter[]>('/assets/deviceData.json');
@@ -31,8 +31,14 @@ export class CloudFunctionAPIService {
             if (trail){
               counter.name = trail.name;
               counter.description = trail.description;
+              counter.hidden = trail.hidden;
             }
             return counter;
+          }).filter(counter => {
+            if (roles) {
+              return roles.includes("user") && !counter.hidden;
+            }
+            return false
           });
         }
       ),

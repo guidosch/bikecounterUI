@@ -1,8 +1,11 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Counter } from './Counter';
 import { SeriesElement } from './TimeseriesData';
+import { catchError, retry, map } from 'rxjs/operators';
 import { startWith, tap, delay } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+import {trails} from './Trails';
 
 
 const urlDeviceSummary ="https://europe-west6-bikecounter.cloudfunctions.net/getDeviceSummaryPro?collection=";
@@ -47,11 +50,46 @@ export class CloudFunctionDeviceService {
     return this.httpClient.get<SeriesElement[]>(url).pipe(delay(3000));
   }
 
-  public getDeviceSummary(id: string) {
+  public getDeviceSummary(id: string, roles: string[] | undefined) {
     let url =urlDeviceSummary+id;
-    //return an observable
-    return this.httpClient.get<Counter[]>(url);
+    return this.httpClient.get<Counter[]>(url).pipe(
+      map(
+        res => {
+          return res.map(counter => {
+            let trail = trails.get(counter.id);
+            if (trail){
+              counter.name = trail.name;
+              counter.description = trail.description;
+              counter.hidden = trail.hidden;
+            }
+            return counter;
+          }).filter(counter => {
+            if (roles) {
+              return roles.includes("user") && !counter.hidden;
+            }
+            return false
+          });
+        }
+      ),
+      retry(2),
+      catchError(this.handleError)
+    );
 
+
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    if (error.status === 0) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error);
+    } else {
+      console.error(
+        `Backend returned code ${error.status}, body was: `, error.error);
+    }
+    // Return an observable with a user-facing error message.
+    return throwError(() => new Error('Something bad happened; please try again later.'))
   }
   
 }
+
+

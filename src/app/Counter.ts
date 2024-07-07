@@ -16,6 +16,7 @@ export interface Counter {
   gateways: Gateway | Gateway[];
   timestampLastMsg: string;
   airtime: number;
+  hidden: boolean;
 }
 
 export interface Gateway {

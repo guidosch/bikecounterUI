@@ -38,20 +38,22 @@ export class DeviceListComponent implements OnInit {
       (profile) => {
         if (profile) {
           this.roles = profile[`${rolesPrefix}`];
-          //console.log("Profile: "+JSON.stringify(profile));
+          this.counters = this.apiService.getDevices(this.roles);
         }
       }
     );
-    //todo use auth0 roles to filter counters
-    this.counters = this.apiService.getDevices();
   }
 
   details(counter: Counter) {
     this.selectedDevice = counter;
   }
 
+  /**
+   * Approved role is used to check if user is allowed to see devices.
+   * @returns true if user has role "approved"
+   */
   checkRole() {
-    return this.roles?.includes("admin");
+    return this.roles?.includes("approved");
   }
 
   isOnline(counter: Counter) {
