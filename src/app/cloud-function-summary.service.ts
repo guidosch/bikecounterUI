@@ -35,10 +35,12 @@ export class CloudFunctionAPIService {
             }
             return counter;
           }).filter(counter => {
-            if (roles) {
-              return roles.includes("user") && !counter.hidden;
+            if (roles && roles.includes("admin")) {
+              return true;
+            } else if (roles && roles.includes("user")) {
+              return !counter.hidden;
             }
-            return false
+            return false;
           });
         }
       ),

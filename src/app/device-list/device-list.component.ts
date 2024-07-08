@@ -36,6 +36,7 @@ export class DeviceListComponent implements OnInit {
 
   ngOnInit() {
     this.auth.user$.subscribe(
+      //todo: do calls with rxjs and wait for both profile call to finish
       (profile) => {
         if (profile) {
           this.roles = profile[`${rolesPrefix}`];
