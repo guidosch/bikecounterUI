@@ -7,7 +7,8 @@ export interface Counter {
   humidity: number;
   batteryLevel: number;
   batteryVoltage: number;
-  status: number;
+  stat: string;
+  statId: number;
   swVersion: number;
   hwVersion: number;
   location: string;

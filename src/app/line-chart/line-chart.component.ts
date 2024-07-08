@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ChartDataset, ChartEvent, ChartOptions, ChartType } from 'chart.js';
 import 'chartjs-adapter-date-fns';
@@ -12,9 +12,9 @@ import { Counter } from '../Counter';
   templateUrl: './line-chart.component.html',
   styleUrls: ['./line-chart.component.css']
 })
-export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit {
+export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
 
-  
+
   @ViewChild(BaseChartDirective)
   baseChartDir!: BaseChartDirective;
   id: string = "default";
@@ -94,12 +94,26 @@ export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit {
   public lineChartLegend = true;
   public lineChartType: ChartType = "line";
 
+  @Input() panelOpenCloseEvent!: string;
+
   @Input() counter!: Counter;
 
   @ViewChild('lineChartDiv') lineChartDiv!: ElementRef;
-  
+
   constructor(private route: ActivatedRoute, private cloudService: CloudFunctionHealthService) {
     this.apiService = cloudService;
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    let change = changes['panelOpenCloseEvent'];
+    if (change.currentValue == "opened") {
+      this.lineChartDiv.nativeElement.style.width = 800 + "px";
+      this.baseChartDir.chart?.resize();
+      console.log("resizing1 to: " + this.lineChartDiv.nativeElement.style.width);
+    } else if (change.currentValue == "closed") {
+      this.lineChartDiv.nativeElement.style.width = 0 + "px";
+      this.baseChartDir.chart?.resize();
+      console.log("resizing2 to: " + this.lineChartDiv.nativeElement.style.width);
+    }
   }
 
   ngAfterViewInit(): void {
@@ -122,20 +136,7 @@ export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit {
       this.baseChartDir.ngOnChanges({});
       this.baseChartDir.update();
 
-      // this is a hack due to the problem of the chart shrinking to zero when data arrives.
-      let flexContainer = this.lineChartDiv.nativeElement.parentElement?.parentElement?.parentElement;
-      let firstClassName = flexContainer.className.split(" ")[0];
-      if (firstClassName == "flex-container") {
-        let width = flexContainer.offsetWidth;
-        let height = flexContainer.offsetHeight;
-        if (width > height) {
-          this.lineChartDiv.nativeElement.style.width = width/3+"px";
-          this.baseChartDir.chart?.resize();
-        } else {
-          this.lineChartDiv.nativeElement.style.height = height/2+"px";
-          this.baseChartDir.chart?.resize();
-        }
-      }
+      this.fixShrinkingChart();
 
     });
   }
@@ -145,6 +146,25 @@ export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   ngOnDestroy() {
     this.lineChartData = [];
+  }
+
+  fixShrinkingChart() {
+    // this is a hack due to the problem of the chart shrinking to zero when data arrives.
+    let flexContainer = this.lineChartDiv.nativeElement.parentElement?.parentElement?.parentElement;
+    let firstClassName = flexContainer.className.split(" ")[0];
+    if (firstClassName == "flex-container") {
+      let width = flexContainer.offsetWidth;
+      let height = flexContainer.offsetHeight;
+      if (width > height) {
+        this.lineChartDiv.nativeElement.style.width = width / 3 + "px";
+        this.baseChartDir.chart?.resize();
+        console.log("resizing3 to: " + this.lineChartDiv.nativeElement.style.width);
+      } else {
+        this.lineChartDiv.nativeElement.style.height = height / 2 + "px";
+        this.baseChartDir.chart?.resize();
+        console.log("resizing4 to: " + this.lineChartDiv.nativeElement.style.width);
+      }
+    }
   }
 
 }

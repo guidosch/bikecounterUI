@@ -29,6 +29,7 @@ export class DeviceListComponent implements OnInit {
   roles: string[] | undefined;
 
   counters: Observable<Counter[]> | undefined;
+  panelOpenCloseEvent: string = "No event yet!";
 
   constructor(private apiService: CloudFunctionAPIService, public auth: AuthService) {
   }
@@ -84,11 +85,13 @@ export class DeviceListComponent implements OnInit {
 
   openPanel(counter: Counter) {
     console.log("Panel opened for: " + counter.id);
+    this.panelOpenCloseEvent = "opened";
     this.selectedDevice = counter;
   }
 
   closedPanel(counter: Counter) {
-    console.log("Panel opened for: " + counter.id);
+    console.log("Panel closed for: " + counter.id);
+    this.panelOpenCloseEvent = "closed";
   }
 
 }

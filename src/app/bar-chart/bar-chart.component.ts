@@ -78,8 +78,9 @@ export class BarChartComponent implements OnInit{
   private dialog: MatDialog;
   visibleSum: number = 0;
 
-  //object passed from parent component
   @Input() counter!: Counter;
+
+  @Input() panelOpenCloseEvent!: string;
 
   constructor(private route: ActivatedRoute, private service: CloudFunctionDeviceService, dialog: MatDialog) {
     this.cloudService = service;
