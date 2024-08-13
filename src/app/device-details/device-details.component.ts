@@ -15,7 +15,7 @@ export class DeviceDetailsComponent {
   @Input() counter!: Counter;
   selectedDevice: Counter | undefined;
   private dialog: MatDialog
-  constructor( dialog: MatDialog) {
+  constructor(dialog: MatDialog) {
     this.dialog = dialog;
   }
   firebaseUrl: string = "";
@@ -32,6 +32,12 @@ export class DeviceDetailsComponent {
 
   checkBatteryVoltage(volt: number): boolean {
     return volt < 3.1 ? true : false;
+  }
+  showBatteryLength(hwVersion: number): string {
+    if (hwVersion){
+      return hwVersion >= 4 ? "- long batteries" : "- normal batteries";
+    }
+    return "";
   }
 
   checkHumidity(humidity: number): boolean {
