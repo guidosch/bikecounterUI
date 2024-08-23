@@ -32,3 +32,11 @@ RewriteRule ^.*$ - [NC,L]
 
 RewriteRule ^(.*) /index.html [NC,L]
 ```
+
+### How to add a new trail with counter to the system
+1. Copy the EUI from the TTN App and my give the device a name to remember
+2. Go to GCP Firestore: Create an entry in the collection 'internal-deviceId-trail-ct' (use: add similar document)
+3. Go to GCP Firestore: Add entry to the collection 'internal-recent-status'  (use: add similar document)
+4. Go to GCP Firestore: Optional: Add new collection for the new trail e.g. 'my-new-trail-xy'
+5. In this repository: Add new entry in the `Trails.ts` file
+

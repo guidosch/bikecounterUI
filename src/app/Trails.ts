@@ -87,14 +87,14 @@ const chirchhofridge: Trail = {
   name: "Chirchhof Ridge Trail",
   description: "Nicht offizieller Trail, der beim Spielplatz SZU Endstation startet und runter bis Stallikon führt.",
   coordinates: chirchhofCoord,
-  hidden: true
+  hidden: true //not visible to users!
 }
 
 const zoBikeTrail1: Trail = {
   name: "ZO Bike Trail 1",
   description: "Noch nicht klar wo montiert.",
   coordinates: zoBikeTrail1Coord,
-  hidden: true
+  hidden: false
 }
 
 export const trails = new Map<string, Trail>();
