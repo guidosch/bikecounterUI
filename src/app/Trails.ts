@@ -13,8 +13,8 @@ export interface TrailCoordinates {
 
 // maps url e.g. 
 const adlisbergCoord: TrailCoordinates = {
-  x: 2686133.808,
-  y: 1247191.276
+  x: 2681175,
+  y: 1244727
 }
 
 const allmendCoord: TrailCoordinates = {
