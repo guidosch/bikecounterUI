@@ -20,6 +20,11 @@ import { NgChartsModule } from "ng2-charts";
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSortModule } from '@angular/material/sort';
+import { MatLabel } from '@angular/material/form-field';
 
 //components. Everny ng comp. must be imported and listed below
 import { BarChartComponent } from './bar-chart/bar-chart.component';
@@ -31,6 +36,7 @@ import { TopBarComponent } from './top-bar/top-bar.component';
 import { LoadingIndicatorComponent } from './loading-indicator/loading-indicator.component';
 import { DialogChartDialog } from './bar-chart/bar-chart.component';
 import { AuthGuard, AuthModule } from '@auth0/auth0-angular';
+import { DeviceEuiTrailMappingComponent } from './device-eui-trail-mapping/device-eui-trail-mapping.component'; 
 
 //service
 import { HttpInterceptService } from './http-intercept.service';
@@ -47,6 +53,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     RouterModule.forRoot([
       { path: '', component: DeviceListComponent, canActivate: [AuthGuard] },
       { path: 'devices/:deviceId', component: DeviceFullDetailsComponent, canActivate: [AuthGuard] },
+      { path: 'mapping', component: DeviceEuiTrailMappingComponent, canActivate: [AuthGuard] }
     ]),
     NoopAnimationsModule,
     MatExpansionModule,
@@ -58,6 +65,11 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     MatDialogModule,
     BrowserAnimationsModule,
     MatTableModule,
+    MatPaginator,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSortModule,
+    MatLabel,
 
     AuthModule.forRoot({
       domain: 'dev-bwfmsrrxqbduxtt7.eu.auth0.com',
@@ -80,7 +92,8 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     LoadingIndicatorComponent,
     DialogChartDialog,
     LoginButtonComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    DeviceEuiTrailMappingComponent
   ],
   bootstrap: [
     AppComponent
