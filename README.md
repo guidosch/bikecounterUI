@@ -16,7 +16,8 @@ run n to check or install a node version (or node version manager nvm)
 e.g. `sudo n lts` --> will install the newest LTS version.
 
 ## Build and publish
-ng build --output-path build
+`ng build --output-path build`
+
 Push the changes to the repo and the webserver will pick it up automatically.
 
 ### .htaccess for angular deep links
