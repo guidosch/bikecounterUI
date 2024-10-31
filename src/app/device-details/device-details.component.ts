@@ -31,7 +31,7 @@ export class DeviceDetailsComponent {
   }
 
   checkBatteryVoltage(volt: number): boolean {
-    return volt < 3.1 ? true : false;
+    return volt < 3.4 ? true : false;
   }
   showBatteryLength(hwVersion: number): string {
     if (hwVersion){

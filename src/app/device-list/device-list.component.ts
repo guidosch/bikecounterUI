@@ -63,10 +63,10 @@ export class DeviceListComponent implements OnInit {
   }
 
   calcWarnings(counter: Counter) {
-    //Devices start having problems sending msg. below/equal ~3.0 volt.
+    //Devices start having problems sending msg. below/equal ~3.3 volt.
     let errors: number = 0;
     if (counter.online) {
-      if (counter.batteryVoltage && counter.batteryVoltage < 3.1) {
+      if (counter.batteryVoltage && counter.batteryVoltage < 3.4) {
         errors++;
       } else if (counter.humidity > 80) {
         errors++;
