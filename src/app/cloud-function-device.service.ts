@@ -14,7 +14,7 @@ const urlDeviceSummary ="https://europe-west6-bikecounter.cloudfunctions.net/get
 const urlCountData ="https://europe-west6-bikecounter.cloudfunctions.net/printDailyGraphDataChartsjs?collection=";
 
 //collection=xy&q=2022-01-31
-const urlCountDataYear = "https://europe-west6-bikecounter.cloudfunctions.net/printGraphChartsJs?collection=";
+const urlCountDataYear = "https://europe-west6-bikecounter.cloudfunctions.net/printGraphDataChartjs?collection=";
 
 //collection=xy&q=2022-01-31
 const urlSingleDay = "https://europe-west6-bikecounter.cloudfunctions.net/printSingleDayChartjs?collection=";
