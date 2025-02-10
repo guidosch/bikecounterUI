@@ -47,6 +47,11 @@ const zoBikeTrail1Coord: TrailCoordinates = {
   y: 1245055
 }
 
+const jumplineHoecklerCoord: TrailCoordinates = {
+  x: 2680943,
+  y: 1244077
+}
+
 const adlisberg: Trail = {
   name: "Adlisberg Trail",
   description: "Einfacher Trail, der am höchsten Punkt vom Adlisberg via Rest. Degenried runter zum Stöckentobel.",
@@ -97,6 +102,13 @@ const zoBikeTrail1: Trail = {
   hidden: false
 }
 
+const jumplineHoeckler: Trail = {
+  name: "Höckler Jumpline",
+  description: "Jupline am Ende vom Höckler Trail.",
+  coordinates: jumplineHoecklerCoord,
+  hidden: true //not visible to users!
+}
+
 export const trails = new Map<string, Trail>();
 trails.set("adlisberg-trail-1", adlisberg);
 trails.set("allmendtrail-1", allmend);
@@ -105,6 +117,7 @@ trails.set("hoeckler-new-3", hoeckler);
 trails.set("gratweg-1", gratweg);
 trails.set("chirchhof-ridge", chirchhofridge);
 trails.set("zo-biketrail-1", zoBikeTrail1);
+trails.set("jumpline", jumplineHoeckler);
 
 
 
