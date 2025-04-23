@@ -43,8 +43,8 @@ const chirchhofCoord: TrailCoordinates = {
 }
 
 const zoBikeTrail1Coord: TrailCoordinates = {
-  x: 2679125,
-  y: 1245055
+  x: 2708747,
+  y: 1239685
 }
 
 const jumplineHoecklerCoord: TrailCoordinates = {
@@ -97,7 +97,7 @@ const chirchhofridge: Trail = {
 
 const zoBikeTrail1: Trail = {
   name: "ZO Bike Trail 1",
-  description: "Noch nicht klar wo montiert.",
+  description: "Zähler am Bachtel Trail.",
   coordinates: zoBikeTrail1Coord,
   hidden: false
 }
