@@ -8,9 +8,10 @@ import { AuthService } from '@auth0/auth0-angular';
 const rolesPrefix = "https://bikecounter.ch/roles";
 
 @Component({
-  selector: 'app-device-full-details',
-  templateUrl: './device-full-details.component.html',
-  styleUrls: ['./device-full-details.component.css']
+    selector: 'app-device-full-details',
+    templateUrl: './device-full-details.component.html',
+    styleUrls: ['./device-full-details.component.css'],
+    standalone: false
 })
 export class DeviceFullDetailsComponent implements OnInit {
 

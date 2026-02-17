@@ -1,13 +1,14 @@
-import { AfterViewInit, Component, Inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { Counter, Gateway } from '../Counter';
 import { trails } from '../Trails';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SeriesElement } from '../TimeseriesData';
 
 @Component({
-  selector: 'app-device-details',
-  templateUrl: './device-details.component.html',
-  styleUrls: ['./device-details.component.css']
+    selector: 'app-device-details',
+    templateUrl: './device-details.component.html',
+    styleUrls: ['./device-details.component.css'],
+    standalone: false
 })
 export class DeviceDetailsComponent {
 
@@ -70,9 +71,10 @@ export class DeviceDetailsComponent {
  * Dialog component and class
  */
 @Component({
-  selector: 'gatways-dialog-dialog',
-  templateUrl: 'gateways-dialog.html',
-  styleUrls: ['./gateways-dialog.css']
+    selector: 'gatways-dialog-dialog',
+    templateUrl: 'gateways-dialog.html',
+    styleUrls: ['./gateways-dialog.css'],
+    standalone: false
 })
 export class GatewaysDialog implements OnDestroy, OnInit {
 
@@ -81,7 +83,11 @@ export class GatewaysDialog implements OnDestroy, OnInit {
   public gateways: Gateway[] = [];
   public airtime: number = 0;
 
-  constructor(public dialogRef: MatDialogRef<GatewaysDialog>, @Inject(MAT_DIALOG_DATA) public dialogData: Counter) {
+  public dialogRef = inject(MatDialogRef<GatewaysDialog>);
+  public dialogData: Counter = inject(MAT_DIALOG_DATA);
+
+  constructor() {
+    const dialogData = this.dialogData;
     this.airtime = dialogData.airtime;
     if (Array.isArray(dialogData.gateways)) {
       this.gateways = dialogData.gateways;

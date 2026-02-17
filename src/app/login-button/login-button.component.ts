@@ -1,15 +1,16 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
-  selector: 'app-login-button',
-  templateUrl: './login-button.component.html',
-  styleUrls: ['./login-button.component.css']
+    selector: 'app-login-button',
+    templateUrl: './login-button.component.html',
+    styleUrls: ['./login-button.component.css'],
+    standalone: false
 })
 export default class LoginButtonComponent {
-  //injected DOM Document object.
-  constructor(@Inject(DOCUMENT) public document: Document,public auth: AuthService) {}
+  public document: Document = inject(DOCUMENT);
+  public auth = inject(AuthService);
 
   login() {
     this.auth.loginWithRedirect();

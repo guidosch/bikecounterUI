@@ -1,4 +1,4 @@
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -8,7 +8,7 @@ import localeDECH from '@angular/common/locales/de-CH';
 registerLocaleData(localeDECH);
 
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 //Material design modules - UI stuff
 import { MatExpansionModule, MAT_EXPANSION_PANEL_DEFAULT_OPTIONS } from '@angular/material/expansion';
@@ -16,17 +16,16 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatIconModule } from '@angular/material/icon';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NgChartsModule } from "ng2-charts";
+import { BaseChartDirective, provideCharts, withDefaultRegisterables } from "ng2-charts";
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
-import { MatLabel } from '@angular/material/form-field';
 
-//components. Everny ng comp. must be imported and listed below
+//components
 import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { DeviceDetailsComponent, GatewaysDialog } from './device-details/device-details.component';
 import { DeviceFullDetailsComponent } from './device-full-details/device-full-details.component';
@@ -36,7 +35,7 @@ import { TopBarComponent } from './top-bar/top-bar.component';
 import { LoadingIndicatorComponent } from './loading-indicator/loading-indicator.component';
 import { DialogChartDialog } from './bar-chart/bar-chart.component';
 import { AuthGuard, AuthModule } from '@auth0/auth0-angular';
-import { DeviceEuiTrailMappingComponent } from './device-eui-trail-mapping/device-eui-trail-mapping.component'; 
+import { DeviceEuiTrailMappingComponent } from './device-eui-trail-mapping/device-eui-trail-mapping.component';
 
 //service
 import { HttpInterceptService } from './http-intercept.service';
@@ -45,41 +44,6 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    NgChartsModule,
-    RouterModule.forRoot([
-      { path: '', component: DeviceListComponent, canActivate: [AuthGuard] },
-      { path: 'devices/:deviceId', component: DeviceFullDetailsComponent, canActivate: [AuthGuard] },
-      { path: 'mapping', component: DeviceEuiTrailMappingComponent, canActivate: [AuthGuard] }
-    ]),
-    NoopAnimationsModule,
-    MatExpansionModule,
-    MatBadgeModule,
-    MatIconModule,
-    FontAwesomeModule,
-    MatRadioModule,
-    FormsModule,
-    MatDialogModule,
-    BrowserAnimationsModule,
-    MatTableModule,
-    MatPaginator,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSortModule,
-    MatLabel,
-
-    AuthModule.forRoot({
-      domain: 'dev-bwfmsrrxqbduxtt7.eu.auth0.com',
-      clientId: 'x0BdHatdCZ2E9XEzGdotMPYx4uoLVeFN',
-      authorizationParams: {
-        redirect_uri: window.location.origin,
-        audience: 'https://dev-bwfmsrrxqbduxtt7.eu.auth0.com/api/v2/',
-      }
-    }),
-  ],
   declarations: [
     AppComponent,
     TopBarComponent,
@@ -98,19 +62,50 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
   bootstrap: [
     AppComponent
   ],
+  imports: [
+    BrowserModule,
+    ReactiveFormsModule,
+    BaseChartDirective,
+    RouterModule.forRoot([
+      { path: '', component: DeviceListComponent, canActivate: [AuthGuard] },
+      { path: 'devices/:deviceId', component: DeviceFullDetailsComponent, canActivate: [AuthGuard] },
+      { path: 'mapping', component: DeviceEuiTrailMappingComponent, canActivate: [AuthGuard] }
+    ]),
+    MatExpansionModule,
+    MatBadgeModule,
+    MatIconModule,
+    FontAwesomeModule,
+    MatRadioModule,
+    FormsModule,
+    MatDialogModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSortModule,
+    AuthModule.forRoot({
+      domain: 'dev-bwfmsrrxqbduxtt7.eu.auth0.com',
+      clientId: 'x0BdHatdCZ2E9XEzGdotMPYx4uoLVeFN',
+      authorizationParams: {
+        redirect_uri: window.location.origin,
+        audience: 'https://dev-bwfmsrrxqbduxtt7.eu.auth0.com/api/v2/',
+      }
+    }),
+  ],
   providers: [
     {
       provide: MAT_EXPANSION_PANEL_DEFAULT_OPTIONS,
-      useValue: {
-        //expandedHeight: '500px',
-      }
+      useValue: {}
     },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpInterceptService,
       multi: true
     },
-    { provide: LOCALE_ID, useValue: 'de-CH' }
+    { provide: LOCALE_ID, useValue: 'de-CH' },
+    provideHttpClient(withInterceptorsFromDi()),
+    provideAnimationsAsync(),
+    provideCharts(withDefaultRegisterables())
   ]
 })
 export class AppModule { }

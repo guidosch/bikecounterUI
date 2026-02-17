@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { LoaderService } from '../loader.service';
 
 @Component({
-  selector: 'app-loading-indicator',
-  templateUrl: './loading-indicator.component.html',
-  styleUrls: ['./loading-indicator.component.css']
+    selector: 'app-loading-indicator',
+    templateUrl: './loading-indicator.component.html',
+    styleUrls: ['./loading-indicator.component.css'],
+    standalone: false
 })
 export class LoadingIndicatorComponent implements OnInit {
 

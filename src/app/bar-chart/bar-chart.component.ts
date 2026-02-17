@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild, AfterViewInit, Inject, AfterContentInit } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { formatDate } from "@angular/common";
 import { ActivatedRoute } from '@angular/router';
 import { Chart, ChartDataset, ChartOptions, ChartType, ChartEvent } from 'chart.js';
@@ -11,9 +11,10 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 
 // @Component annotation belongs to the class header like in e.g. java. It binds the components to this class
 @Component({
-  selector: 'app-bar-chart',
-  templateUrl: './bar-chart.component.html',
-  styleUrls: ['./bar-chart.component.css']
+    selector: 'app-bar-chart',
+    templateUrl: './bar-chart.component.html',
+    styleUrls: ['./bar-chart.component.css'],
+    standalone: false
 })
 export class BarChartComponent implements OnInit{
 
@@ -41,7 +42,7 @@ export class BarChartComponent implements OnInit{
       tooltip: {
         callbacks: {
           title: function (context) {
-            return formatDate(context[0].parsed.x, "fullDate", "en");
+            return formatDate(context[0].parsed.x ?? 0, "fullDate", "en");
           }
         }
       }
@@ -66,7 +67,7 @@ export class BarChartComponent implements OnInit{
       tooltip: {
         callbacks: {
           title: function (context) {
-            return formatDate(context[0].parsed.x, "MMMM", "en");
+            return formatDate(context[0].parsed.x ?? 0, "MMMM", "en");
           }
         }
       }
@@ -221,8 +222,9 @@ type DialogData = {
  * Dialog component and class
  */
 @Component({
-  selector: 'dialog-chart-dialog',
-  templateUrl: 'dialog-chart-dialog.html',
+    selector: 'dialog-chart-dialog',
+    templateUrl: 'dialog-chart-dialog.html',
+    standalone: false
 })
 export class DialogChartDialog implements OnDestroy, OnInit, AfterViewInit {
 
@@ -251,7 +253,7 @@ export class DialogChartDialog implements OnDestroy, OnInit, AfterViewInit {
       tooltip: {
         callbacks: {
           title: function (context) {
-            return formatDate(context[0].parsed.x, "full", "en");
+            return formatDate(context[0].parsed.x ?? 0, "full", "en");
           }
         }
       }
@@ -260,9 +262,11 @@ export class DialogChartDialog implements OnDestroy, OnInit, AfterViewInit {
   public chartType: ChartType = "bar";
   private cloudService: CloudFunctionDeviceService;
 
-  constructor(private service: CloudFunctionDeviceService, public dialogRef: MatDialogRef<DialogChartDialog>, @Inject(MAT_DIALOG_DATA) public dialogData: DialogData) {
+  public dialogRef = inject(MatDialogRef<DialogChartDialog>);
+  public dialogData: DialogData = inject(MAT_DIALOG_DATA);
+
+  constructor(private service: CloudFunctionDeviceService) {
     this.cloudService = service;
-    this.dialogData = dialogData;
   }
 
   ngOnInit(): void {

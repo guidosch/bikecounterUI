@@ -17,9 +17,10 @@ const ELEMENT_DATA: CollectionToEUIMapping[] = [
 
 
 @Component({
-  selector: 'app-device-eui-trail-mapping',
-  templateUrl: './device-eui-trail-mapping.component.html',
-  styleUrl: './device-eui-trail-mapping.component.css'
+    selector: 'app-device-eui-trail-mapping',
+    templateUrl: './device-eui-trail-mapping.component.html',
+    styleUrl: './device-eui-trail-mapping.component.css',
+    standalone: false
 })
 export class DeviceEuiTrailMappingComponent implements OnInit, AfterViewInit {
 

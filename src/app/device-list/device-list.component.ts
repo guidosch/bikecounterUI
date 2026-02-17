@@ -10,9 +10,10 @@ import { Observable } from 'rxjs';
 const rolesPrefix = "https://bikecounter.ch/roles"
 
 @Component({
-  selector: 'app-device-list',
-  templateUrl: './device-list.component.html',
-  styleUrls: ['./device-list.component.css'],
+    selector: 'app-device-list',
+    templateUrl: './device-list.component.html',
+    styleUrls: ['./device-list.component.css'],
+    standalone: false
 })
 export class DeviceListComponent implements OnInit {
 

@@ -8,9 +8,10 @@ import { Counter } from '../Counter';
 
 
 @Component({
-  selector: 'app-line-chart',
-  templateUrl: './line-chart.component.html',
-  styleUrls: ['./line-chart.component.css']
+    selector: 'app-line-chart',
+    templateUrl: './line-chart.component.html',
+    styleUrls: ['./line-chart.component.css'],
+    standalone: false
 })
 export class LineChartComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
 
